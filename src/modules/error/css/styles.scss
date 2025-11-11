@@ -1,0 +1,7 @@
+@use "../../../assets/css/common/mixins.scss" as *;
+@use "../../../assets/css/common/variables.scss" as *;
+
+.errors-page {
+  @include centeritems;
+  @include size(100dvh);
+}

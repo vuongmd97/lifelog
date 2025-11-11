@@ -1,0 +1,74 @@
+@use "./variables.scss" as *;
+@use "./mixins.scss" as *;
+
+.dropdown {
+  position: relative;
+
+  &:not(.active) {
+    .dropdown__menu {
+      display: none;
+    }
+  }
+
+  &__menu {
+    position: absolute;
+    background-color: $bg-white;
+    border: 1px solid $border-gray;
+    border-radius: 4px;
+    left: 0;
+    top: calc(100% + 4px);
+    width: 100%;
+    z-index: 1;
+
+    &.content-full {
+      width: max-content;
+      min-width: 100%;
+      max-width: 320px;
+    }
+
+    ul {
+      padding: 3px 2px;
+    }
+
+    .line {
+      border-top: 1px solid $border-gray;
+      margin: 4px 0;
+    }
+  }
+
+  .items {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 8px;
+    gap: 4px;
+
+    & + .items {
+      margin-top: 2px;
+    }
+
+    &.active,
+    &:hover {
+      background-color: $bg-gray;
+    }
+  }
+
+  &.active {
+    > .btn-default {
+      box-shadow: 0 0 0 1px $color-primary,
+        0 0 0 5px color-mix(in srgb, $color-primary 30%, transparent);
+    }
+
+    .arrow {
+      transform: rotate(180deg);
+    }
+  }
+
+  .arrow {
+    display: flex;
+
+    svg {
+      @include size(18px);
+    }
+  }
+}

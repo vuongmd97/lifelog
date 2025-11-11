@@ -1,0 +1,155 @@
+@use './variables' as *;
+@use './mixins' as *;
+
+.ReactModalPortal {
+  position: relative;
+  z-index: 1000;
+}
+
+.modal {
+  position: fixed;
+  @include size(100%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  @include centeritems;
+  z-index: 1000;
+  color: $text-black;
+
+  &.--right {
+    justify-content: flex-end;
+  }
+
+  &__overlay {
+    background-color: $modal-overlay;
+    position: fixed;
+    @include size(100%);
+    top: 0;
+    left: 0;
+    z-index: 1000;
+
+    &.--transparent {
+      background-color: transparent;
+    }
+  }
+  &__container {
+    position: relative;
+    z-index: 1001;
+    background-color: $bg-white;
+    width: 500px;
+    height: auto;
+    max-height: 90dvh;
+    border-radius: 4px;
+    box-shadow: 0 12px 28px 0 rgba($color: #000, $alpha: 0.2), 0 2px 4px 0 rgba($color: #000, $alpha: 0.1),
+      inset 0 0 0 1px rgba($color: #fff, $alpha: 0.8);
+
+    &.--sm {
+      width: 392px;
+    }
+  }
+
+  &-header,
+  &-footer {
+    @include flex-center;
+    padding: 0 16px;
+    height: 64px;
+  }
+
+  &-header {
+    justify-content: space-between;
+
+    .header-title {
+      font-size: 16px;
+      font-weight: 600;
+    }
+  }
+
+  &-body {
+    padding: 16px;
+    border-top: 1px solid $border-gray;
+    border-bottom: 1px solid $border-gray;
+  }
+
+  &-footer {
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  &.modal-upload-avatar {
+    .image-crop {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      overflow: hidden;
+      @include centeritems;
+
+      &__overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        @include size(250px);
+        border-radius: 50%;
+        box-shadow: 0 0 0 300px $resize-image-overlay;
+        z-index: 1;
+        pointer-events: none;
+        border: 1px solid white;
+      }
+
+      .avatar-img {
+        max-width: 100%;
+        max-height: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+
+    .resize-action {
+      margin-top: 16px;
+      @include flex-column;
+      gap: 16px;
+    }
+
+    .range-slider {
+      &__wrap {
+        @include flex-center;
+        gap: 8px;
+
+        .range {
+          flex: 1;
+          height: 8px;
+          background-color: $bg-gray;
+          border-radius: 16px;
+          cursor: pointer;
+
+          &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            @include size(32px);
+            background-color: $bg-white;
+            border: 1px solid $border-gray;
+            border-radius: 50%;
+          }
+        }
+      }
+    }
+  }
+
+  &.modal-custom-events {
+    .modal-body {
+      padding: 0;
+    }
+
+    .modal__container {
+      width: 282px;
+      height: 100%;
+      max-height: 100dvh;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .modal-body {
+      height: calc(100% - 128px);
+    }
+  }
+}

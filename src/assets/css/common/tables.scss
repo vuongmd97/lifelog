@@ -1,0 +1,105 @@
+@use './variables' as *;
+@use './mixins' as *;
+
+// reset
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+th,
+td {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  text-align: left;
+  vertical-align: top;
+  background: transparent;
+}
+
+thead,
+tbody,
+tfoot,
+tr {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.tables {
+  width: 100%;
+  table-layout: fixed;
+  @include font-style($text-black, 14px, 18px);
+
+  &-header {
+    position: sticky;
+    top: 0;
+    background-color: $bg-white;
+    z-index: 1;
+  }
+
+  &-list {
+    position: relative;
+  }
+
+  &:has(td.empty) {
+    background-color: $bg-gray;
+  }
+
+  .empty {
+    white-space: nowrap;
+  }
+
+  th {
+    font-weight: bold;
+  }
+
+  .rows {
+    box-shadow: inset 0 -1px 0 $border-gray;
+  }
+
+  .col {
+    white-space: pre-wrap;
+    word-break: break-word;
+    word-wrap: break-word;
+    padding: 8px;
+    width: 120px;
+
+    &:first-child {
+      padding-left: 16px;
+    }
+
+    &:last-child {
+      padding-right: 16px;
+    }
+
+    &.--checkbox {
+      width: 36px;
+
+      label {
+        &::before {
+          top: -3px;
+        }
+      }
+      input[type='checkbox']:checked + .item-checkbox label::after {
+        top: 1px;
+      }
+    }
+
+    &.col-lg {
+      width: 180px;
+    }
+
+    &.col-md {
+      width: 150px;
+    }
+  }
+
+  .loading-table {
+    @include centeritems;
+    width: 100vw;
+    min-height: 40px;
+    position: relative;
+  }
+}

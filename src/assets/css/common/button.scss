@@ -1,0 +1,78 @@
+@use './variables' as *;
+
+.btn-default {
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid $border-gray;
+  background-color: $bg-white;
+  width: max-content;
+  gap: 4px;
+  position: relative;
+
+  &:hover {
+    border-color: $border-gray-dark;
+  }
+
+  &:active {
+    box-shadow: inset 0 2px 8px 0 #0000000f, inset 0 3px 4px 0 #0000000a, inset 0 2px 2px 0 #00000005,
+      inset 0 0 2px 0 #0000001f;
+  }
+
+  &.--transparent {
+    border-color: transparent;
+
+    &:hover {
+      background-color: $button-bg;
+    }
+  }
+
+  &.--icon {
+    &-lg,
+    &-sm {
+      justify-content: center;
+      padding: 0;
+    }
+
+    &-lg {
+      width: 32px;
+      height: 32px;
+    }
+
+    &-sm {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  &.has-icon {
+    padding: 4px 8px 4px 4px;
+  }
+
+  &.--sm {
+    height: 22px !important;
+  }
+}
+
+.btn-main {
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  background-color: $color-primary;
+  color: white;
+  position: relative;
+
+  &:hover {
+    background-color: $color-primary-dark;
+  }
+  &:active {
+    background-color: $color-primary;
+  }
+}
