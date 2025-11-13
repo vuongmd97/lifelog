@@ -3,16 +3,18 @@ import { UserService } from "./userService";
 
 export const fetchUserProfile = createAsyncThunk(
   "user/fetchUserProfile",
-  async () => {
-    const data = await UserService.fetchUserProfile();
+  async (_, { getState }) => {
+    const userId = getState().auth.userId;
+    const data = await UserService.fetchUserProfile(userId);
     return data;
   }
 );
 
 export const upsertProfiles = createAsyncThunk(
   "user/upsertProfiles",
-  async (profileData) => {
-    const data = await UserService.upsertProfiles(profileData);
+  async (profileData, { getState }) => {
+    const userId = getState().auth.userId;
+    const data = await UserService.upsertProfiles(profileData, userId);
     return data;
   }
 );

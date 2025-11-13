@@ -1,30 +1,22 @@
 import { supabase } from "../../../config/supabase/client";
 
 export const UserService = {
-  async fetchUserProfile() {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
+  async fetchUserProfile(userId) {
     const { data, error } = await supabase
       .from("profiles")
       .select()
-      .eq("id", user.id)
+      .eq("id", userId)
       .maybeSingle();
 
     if (error) throw error;
     return data;
   },
 
-  async upsertProfiles(profileData) {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
+  async upsertProfiles(profileData, userId) {
     const { data, error } = await supabase
       .from("profiles")
       .upsert({
-        id: user.id,
+        id: userId,
         ...profileData,
       })
       .select()

@@ -1,10 +1,8 @@
 import IconMenu from "../../assets/svg/IconMenu";
-import IconMoon from "../../assets/svg/IconMoon";
-import IconBrightness from "../../assets/svg/IconBrightness";
+import ButtonDarkMode from "./ButtonDarkMode";
 import NavbarUser from "./NavbarUser";
 
 export default function Header() {
-  const theme = "";
   return (
     <header className="header">
       <div className="container-header">
@@ -15,9 +13,7 @@ export default function Header() {
         </div>
       </div>
       <div className="container-header justify-right">
-        <div className="btn-default --icon-sm svg-9">
-          {theme === "theme-dark" ? <IconMoon /> : <IconBrightness />}
-        </div>
+        <ButtonDarkMode />
         <NavbarUser />
       </div>
     </header>

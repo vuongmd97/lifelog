@@ -26,6 +26,7 @@ const initialState = {
   error: null,
   accessToken: null,
   refreshToken: null,
+  userId: null,
 };
 
 const authSlice = createSlice({
@@ -36,11 +37,13 @@ const authSlice = createSlice({
       const { session } = action.payload || {};
       state.accessToken = session?.access_token ?? null;
       state.refreshToken = session?.refresh_token ?? null;
+      state.userId = session?.user?.id ?? null;
       state.loading = false;
     },
     clearSession(state) {
       state.accessToken = null;
       state.refreshToken = null;
+      state.userId = null;
     },
   },
   extraReducers: (builder) => {
@@ -52,8 +55,12 @@ const authSlice = createSlice({
 
       // signOut
       .addCase(signOut.fulfilled, (state) => {
+        localStorage.removeItem("theme");
+        document.body.className = "";
+
         state.accessToken = null;
         state.refreshToken = null;
+        state.userId = null;
       })
       .addCase(signOut.rejected, (state, action) => {
         state.error = action.error.message;
