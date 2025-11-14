@@ -22,18 +22,12 @@ export default function AuthenticatedApp() {
       <Sidebar />
       <div className="container-wrap">
         <Header />
-        <div className="container">
-          <Routes>
-            {ROUTES_CONFIG.map((route) => (
-              <Route
-                key={route.path}
-                path={route.path}
-                element={route.element}
-              />
-            ))}
-            <Route path="*" element={<Navigate to="/calendar" replace />} />
-          </Routes>
-        </div>
+        <Routes>
+          {ROUTES_CONFIG.map((route) => (
+            <Route key={route.path} path={route.path} element={route.element} />
+          ))}
+          <Route path="*" element={<Navigate to="/calendar" replace />} />
+        </Routes>
       </div>
     </div>
   );

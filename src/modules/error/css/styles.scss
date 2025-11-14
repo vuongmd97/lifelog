@@ -3,5 +3,5 @@
 
 .errors-page {
   @include centeritems;
-  @include size(100dvh);
+  @include size(100%);
 }

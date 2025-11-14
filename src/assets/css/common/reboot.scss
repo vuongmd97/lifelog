@@ -126,7 +126,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: '';
+  content: "";
   content: none;
 }
 
@@ -136,9 +136,10 @@ table {
 }
 
 body {
-  font-family: 'Alan Sans', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-optical-sizing: auto;
   font-style: normal;
+  font-variation-settings: "wdth" 100;
 }
 
 html,
@@ -152,12 +153,12 @@ html {
   font-size: 12px;
 }
 
-input[type='range'] {
+input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
 }
 
-input[type='checkbox'] {
+input[type="checkbox"] {
   margin: 0;
   cursor: pointer;
 }

@@ -2,7 +2,9 @@ import { useReducer } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { reducer } from "../../const/Reducer";
 import { signOut } from "../../modules/auth/authSlice";
+import { Link } from "react-router-dom";
 import classNames from "classnames";
+
 //
 import IconDefaultAvatar from "../../assets/svg/IconDefaultAvatar";
 import IconSetting from "../../assets/svg/IconSetting";
@@ -45,11 +47,17 @@ export default function NavbarUser() {
       </div>
       <div className="dropdown__menu content-full">
         <ul>
-          <li className="items svg-9">
-            <IconSetting />
-            Settings
+          <li>
+            <Link
+              to="/settings/users/"
+              className="items svg-9"
+              onClick={handleOpen}
+            >
+              <IconSetting />
+              Settings
+            </Link>
           </li>
-          <div className="line"></div>
+          <li className="line"></li>
           <li className="items svg-9" onClick={handleSignOut}>
             <IconLogout />
             Logout

@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { AUTHENTICATE_ROUTES } from "./config/router/router";
-import "./modules/auth/css/styles.scss";
+import "./modules/auth/css/auth.scss";
 
 export default function UnAuthenticatedApp() {
   return (
