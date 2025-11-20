@@ -21,6 +21,7 @@ export default function NavbarUser() {
   const handleSignOut = async () => {
     await dispatch(signOut()).unwrap();
   };
+
   const handleActiveMenu = () => {
     setIsMenuVisible(!isMenuVisible);
   };
