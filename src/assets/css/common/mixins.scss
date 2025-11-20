@@ -1,0 +1,47 @@
+@mixin size($property) {
+  width: $property;
+  height: $property;
+}
+
+@mixin text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin font-style($color, $font-size, $line-height: 20px) {
+  color: $color;
+  font-size: $font-size;
+  line-height: $line-height;
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin centeritems {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-top {
+  display: flex;
+  align-items: flex-start;
+}
+
+@mixin flexend {
+  display: flex;
+  justify-content: flex-end;
+}
+
+@mixin flexbetween {
+  display: flex;
+  justify-content: space-between;
+}

@@ -1,0 +1,107 @@
+@use "../../../assets/css/common/mixins.scss" as *;
+@use "../../../assets/css/common/variables.scss" as *;
+
+.container-settings {
+  .sidebar-pages {
+    width: 245px;
+    height: 100%;
+    border-right: 1px solid $border-gray;
+    transition: transform 100ms ease-in;
+    background-color: $bg-white;
+
+    &.is-collapsed {
+      margin-left: -225px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $bg-gray;
+        .btn-default {
+          border-color: $border-gray-dark;
+        }
+      }
+
+      .sidebar-header {
+        border-bottom-color: transparent;
+
+        .btn-default {
+          rotate: 180deg;
+          border-radius: 50%;
+          transform: translate(-20px);
+        }
+      }
+
+      .sidebar-content {
+        opacity: 0;
+        pointer-events: none;
+      }
+    }
+
+    .sidebar-header {
+      @include flex-center;
+      justify-content: space-between;
+      height: 64px;
+      border-bottom: 1px solid $border-gray;
+      padding: 0 8px;
+    }
+
+    .sidebar-content {
+      padding: 16px 8px;
+      height: calc(100% - 64px);
+      overflow-y: auto;
+    }
+
+    .items {
+      @include flex-center;
+      min-height: 32px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $bg-gray;
+      }
+
+      &.active {
+        background-color: $items-active;
+        color: $text-white;
+      }
+    }
+  }
+
+  .contents-pages {
+    max-width: 500px;
+    border: 1px solid $border-gray;
+    border-radius: 4px;
+    padding: 24px;
+    margin: 8px auto;
+    background-color: $bg-white;
+  }
+
+  .form-default {
+    line-height: 20px;
+
+    .form-header,
+    .rows {
+      gap: 10px;
+    }
+
+    .form-header {
+      @include flex-top;
+      justify-content: space-between;
+    }
+
+    .rows {
+      @include flex-center;
+      margin-top: 20px;
+
+      &__label {
+        color: $text-label;
+        width: 140px;
+      }
+
+      &__info {
+        flex: 1;
+      }
+    }
+  }
+}

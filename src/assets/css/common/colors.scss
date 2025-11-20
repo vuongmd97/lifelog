@@ -1,0 +1,32 @@
+@use "./variables" as *;
+
+@each $color, $value in $colors {
+  .bg-#{$color} {
+    background-color: $value !important;
+  }
+  .#{$color} {
+    color: $value !important;
+  }
+}
+
+@each $color, $value in $colors {
+  .border-#{$color} {
+    border: 1px solid $value !important;
+  }
+
+  .border-top-#{$color} {
+    border-top: 1px solid $value !important;
+  }
+
+  .border-bottom-#{$color} {
+    border-bottom: 1px solid $value !important;
+  }
+
+  .border-left-#{$color} {
+    border-left: 1px solid $value !important;
+  }
+
+  .border-right-#{$color} {
+    border-right: 1px solid $value !important;
+  }
+}

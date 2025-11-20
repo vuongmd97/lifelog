@@ -1,0 +1,17 @@
+@for $i from 0 through 10 {
+  .fs-#{$i} {
+    font-size: (5px * $i) !important;
+  }
+}
+
+.fw-bold {
+  font-weight: bold;
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
