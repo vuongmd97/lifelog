@@ -16,10 +16,14 @@ export default function Users() {
     const _onEdit = () => dispatchState({ isEdit: true });
     const _offEdit = () => dispatchState({ isEdit: false });
 
+    const handleSubmitForm = (e) => {
+        e.preventDefault();
+    };
+
     return (
         <>
             {isEdit ? (
-                <UsersForm data={profiles || {}} onClose={_offEdit} />
+                <UsersForm data={profiles || {}} onClose={_offEdit} onSubmit={handleSubmitForm} />
             ) : (
                 <UsersInfo data={profiles || {}} onEdit={_onEdit} />
             )}

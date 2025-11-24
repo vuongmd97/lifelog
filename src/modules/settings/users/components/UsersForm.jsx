@@ -5,14 +5,10 @@ import Input from '../../../../components/input/Input';
 import IconDefaultAvatar from '../../../../assets/svg/IconDefaultAvatar';
 import IconTrash from '../../../../assets/svg/IconTrash';
 
-const UsersForm = forwardRef(({ data, onClose = () => {} }, ref) => {
+const UsersForm = forwardRef(({ data, onClose = () => {}, onSubmit = () => {} }, ref) => {
     const { t } = useTranslation(['settings', 'auth']);
 
     const { first_name, last_name, phone, avatar_url } = data;
-
-    const onSubmit = (e) => {
-        e.preventDefault();
-    };
 
     return (
         <form onSubmit={onSubmit} className="form-editing">
@@ -37,7 +33,7 @@ const UsersForm = forwardRef(({ data, onClose = () => {} }, ref) => {
                     <Input
                         label={t('first_name')}
                         name="first_name"
-                        initValue={first_name}
+                        initValue={first_name || ''}
                         placeholder={t('first_name')}
                         type="text"
                         classWrapper="rows flex-1"
@@ -49,7 +45,7 @@ const UsersForm = forwardRef(({ data, onClose = () => {} }, ref) => {
                     <Input
                         label={t('last_name')}
                         name="last_name"
-                        initValue={last_name}
+                        initValue={last_name || ''}
                         placeholder={t('last_name')}
                         type="text"
                         classWrapper="rows flex-1"
@@ -63,7 +59,7 @@ const UsersForm = forwardRef(({ data, onClose = () => {} }, ref) => {
                     label={t('phone')}
                     name="phone"
                     placeholder={t('phone')}
-                    initValue={phone}
+                    initValue={phone || ''}
                     type="text"
                     classWrapper="rows"
                     classLabel="rows__label"
