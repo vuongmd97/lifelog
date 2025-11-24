@@ -45,6 +45,7 @@
   "show_all": "Show All",
   "hide": "Hide",
   "save": "Save",
+  "save_changes": "Save Changes",
   "apply": "Apply",
   "cancel": "Cancel",
   "close": "Close",
@@ -53,5 +54,7 @@
   "disable": "Disable",
 
   "status": "Status",
-  "all": "All"
+  "all": "All",
+  
+  "upload_new_avatar": "Upload New Avatar"
 }

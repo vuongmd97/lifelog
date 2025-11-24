@@ -1,12 +1,12 @@
-@use "../../../assets/css/common/mixins.scss" as *;
-@use "../../../assets/css/common/variables.scss" as *;
+@use '../../../assets/css/common/mixins.scss' as *;
+@use '../../../assets/css/common/variables.scss' as *;
 
 .errors-page {
-  @include centeritems;
-  @include size(100%);
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 99999;
-  background-color: $bg-white;
+    @include centeritems;
+    @include size(100%);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99999;
+    background-color: $bg-white;
 }

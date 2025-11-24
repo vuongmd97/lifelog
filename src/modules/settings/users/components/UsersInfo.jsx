@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 //
+import IconDefaultAvatar from "../../../../assets/svg/IconDefaultAvatar";
 
 export default function UsersInfo({ data, onEdit = () => {} }) {
   console.log("profiles", data);
@@ -21,9 +22,15 @@ export default function UsersInfo({ data, onEdit = () => {} }) {
   return (
     <div className="form-default">
       <div className="form-header">
-        <div className="logo"></div>
+        <div className="avatar-img">
+          {data.avatar_url ? (
+            <img src={data.avatar_url} alt="avatar" />
+          ) : (
+            <IconDefaultAvatar className="img" />
+          )}
+        </div>
         <div className="btn-default" onClick={onEdit}>
-          Edit
+          {t("edit")}
         </div>
       </div>
       <div className="form-content">

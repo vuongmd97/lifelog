@@ -1,5 +1,6 @@
 body {
   --red-default: #ee4646;
+  --red-hover: #fbdddd;
   --orange-default: #ff871e;
   --green-default: #53b736;
   --white-default: #ffffff;
@@ -81,9 +82,11 @@ $purple-default: var(--purple-default);
 $bg-tabs-active: var(--bg-tabs-active);
 $text-label: var(--text-label);
 $items-active: var(--items-active);
+$red-hover: var(--red-hover);
 
 $colors: (
   "red-default": $red-default,
+  "red-hover": $red-hover,
   "orange-default": $orange-default,
   "green-default": $green-default,
   "text-white": $text-white,

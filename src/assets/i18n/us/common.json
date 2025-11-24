@@ -1,8 +1,8 @@
 {
-  "oops": "Oops!",
-  "something_went_wrong": "Something went wrong",
-  "page_not_found": "Sorry, the page not found",
-  "updateSuccess": "Update successful",
-  "updateError": "An error occurred while updating",
-  "go_to_calendar": "Go to Calendar"
+    "oops": "Oops!",
+    "something_went_wrong": "Something went wrong",
+    "page_not_found": "Sorry, the page not found",
+    "updateSuccess": "Update successful",
+    "updateError": "An error occurred while updating",
+    "go_to_calendar": "Go to Calendar"
 }

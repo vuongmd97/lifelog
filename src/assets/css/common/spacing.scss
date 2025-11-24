@@ -1,77 +1,77 @@
 @for $i from 0 through 16 {
-  .p-#{$i} {
-    padding: (5px * $i) !important;
-  }
-  .px-#{$i} {
-    padding-left: (5px * $i) !important;
-    padding-right: (5px * $i) !important;
-  }
-  .py-#{$i} {
-    padding-top: (5px * $i) !important;
-    padding-bottom: (5px * $i) !important;
-  }
-  .pt-#{$i} {
-    padding-top: (5px * $i) !important;
-  }
-  .pb-#{$i} {
-    padding-bottom: (5px * $i) !important;
-  }
-  .pl-#{$i} {
-    padding-left: (5px * $i) !important;
-  }
-  .pr-#{$i} {
-    padding-right: (5px * $i) !important;
-  }
-  .m-#{$i} {
-    margin: (5px * $i) !important;
-  }
-  .mt-#{$i},
-  .my-#{$i} {
-    margin-top: (5px * $i) !important;
-  }
-  .mb-#{$i},
-  .my-#{$i} {
-    margin-bottom: (5px * $i) !important;
-  }
-  .ml-#{$i},
-  .mx-#{$i} {
-    margin-left: (5px * $i) !important;
-  }
-  .mr-#{$i},
-  .mx-#{$i} {
-    margin-right: (5px * $i) !important;
-  }
-  .m-n#{$i} {
-    margin: (-5px * $i) !important;
-  }
-  .mt-n#{$i},
-  .my-n#{$i} {
-    margin-top: (-5px * $i) !important;
-  }
-  .mb-n#{$i},
-  .my-n#{$i} {
-    margin-bottom: (-5px * $i) !important;
-  }
-  .ml-n#{$i},
-  .mx-n#{$i} {
-    margin-left: (-5px * $i) !important;
-  }
-  .mr-n#{$i},
-  .mx-n#{$i} {
-    margin-right: (-5px * $i) !important;
-  }
+    .p-#{$i} {
+        padding: (5px * $i) !important;
+    }
+    .px-#{$i} {
+        padding-left: (5px * $i) !important;
+        padding-right: (5px * $i) !important;
+    }
+    .py-#{$i} {
+        padding-top: (5px * $i) !important;
+        padding-bottom: (5px * $i) !important;
+    }
+    .pt-#{$i} {
+        padding-top: (5px * $i) !important;
+    }
+    .pb-#{$i} {
+        padding-bottom: (5px * $i) !important;
+    }
+    .pl-#{$i} {
+        padding-left: (5px * $i) !important;
+    }
+    .pr-#{$i} {
+        padding-right: (5px * $i) !important;
+    }
+    .m-#{$i} {
+        margin: (5px * $i) !important;
+    }
+    .mt-#{$i},
+    .my-#{$i} {
+        margin-top: (5px * $i) !important;
+    }
+    .mb-#{$i},
+    .my-#{$i} {
+        margin-bottom: (5px * $i) !important;
+    }
+    .ml-#{$i},
+    .mx-#{$i} {
+        margin-left: (5px * $i) !important;
+    }
+    .mr-#{$i},
+    .mx-#{$i} {
+        margin-right: (5px * $i) !important;
+    }
+    .m-n#{$i} {
+        margin: (-5px * $i) !important;
+    }
+    .mt-n#{$i},
+    .my-n#{$i} {
+        margin-top: (-5px * $i) !important;
+    }
+    .mb-n#{$i},
+    .my-n#{$i} {
+        margin-bottom: (-5px * $i) !important;
+    }
+    .ml-n#{$i},
+    .mx-n#{$i} {
+        margin-left: (-5px * $i) !important;
+    }
+    .mr-n#{$i},
+    .mx-n#{$i} {
+        margin-right: (-5px * $i) !important;
+    }
 }
 @for $j from 0 through 30 {
-  .gap-#{$j} {
-    gap: (1px * $j) !important;
-  }
-  .col-gap-#{$j} {
-    column-gap: (1px * $j) !important;
-  }
-  .row-gap-#{$j} {
-    row-gap: (1px * $j) !important;
-  }
-  .h-#{$j} {
-    height: (5px * $j) !important;
-  }
+    .gap-#{$j} {
+        gap: (1px * $j) !important;
+    }
+    .col-gap-#{$j} {
+        column-gap: (1px * $j) !important;
+    }
+    .row-gap-#{$j} {
+        row-gap: (1px * $j) !important;
+    }
+    .h-#{$j} {
+        height: (5px * $j) !important;
+    }
 }

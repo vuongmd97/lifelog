@@ -173,17 +173,17 @@
     @include size(24px);
     border-radius: 50%;
     overflow: hidden;
-
-    img {
-      @include size(100%);
-      object-fit: cover;
-    }
   }
 
   &__name {
     flex: 1;
     margin-top: 3px;
   }
+}
+
+.img {
+  @include size(100%);
+  object-fit: cover;
 }
 
 .tabs {

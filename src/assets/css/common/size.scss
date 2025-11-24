@@ -1,6 +1,6 @@
 @for $i from 0 through 16 {
-  .svg-#{$i} > svg {
-    width: (2px * $i) !important;
-    height: (2px * $i) !important;
-  }
+    .svg-#{$i} > svg {
+        width: (2px * $i) !important;
+        height: (2px * $i) !important;
+    }
 }
