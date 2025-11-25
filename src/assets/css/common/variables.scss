@@ -1,59 +1,60 @@
 body {
-  --red-default: #ee4646;
-  --red-hover: #fbdddd;
-  --orange-default: #ff871e;
-  --green-default: #53b736;
-  --white-default: #ffffff;
-  --border-gray-dark: #8c9198;
-  --color-primary-light: hsl(210, 100%, 70%);
-  --color-primary-dark: hsl(210, 100%, 38%);
-  --purple-default: #8d4afc;
+    --red-default: #ee4646;
+    --red-hover: #fbdddd;
+    --orange-default: #ff871e;
+    --green-default: #53b736;
+    --white-default: #ffffff;
+    --border-gray-dark: #8c9198;
+    --color-primary-light: hsl(210, 100%, 70%);
+    --color-primary-dark: hsl(210, 100%, 38%);
+    --purple-default: #8d4afc;
 
-  &:not(.theme-dark) {
-    --bg-default: #f2f2f2;
-    --bg-white: #ffffff;
-    --bg-black: #000000;
-    --bg-gray: #dedede;
-    --text-white: #ffffff;
-    --text-black: #000000;
-    --text-label: #7a83a6;
-    --border-gray: rgba(0, 0, 0, 0.24);
-    --button-bg: #e8e8e85a;
-    --text-gray: #71717a;
-    --color-primary: hsl(210, 100%, 45%);
-    --modal-overlay: rgba(0, 0, 0, 0.45);
-    --resize-image-overlay: rgba(0, 0, 0, 0.6);
-    --items-active: #595067;
-    // calendar
-    --border-calendar: rgba(0, 0, 0, 0.32);
-    --shadow-calendar: 0 0 3px rgba(0, 0, 0, 0.16), 0 0 2px rgba(0, 0, 0, 0.4),
-      0 0 1px rgba(0, 0, 0, 0.8);
-    // date picker
-    --bg-date: 89, 80, 103;
-    --bg-tabs-active: 89, 80, 103;
-  }
-  &.theme-dark {
-    --bg-default: #2e2e2e;
-    --bg-white: #282828;
-    --bg-gray: #323232;
-    --text-white: #000000;
-    --text-black: #ffffff;
-    --text-label: #a29a8e;
-    --border-gray: #575757;
-    --button-bg: #37393daa;
-    --text-gray: #bebebe;
-    --color-primary: hsl(210, 100%, 50%);
-    --modal-overlay: #6e696973;
-    --resize-image-overlay: rgba(80, 80, 80, 0.6);
-    --items-active: #d3d0d8;
-    // calendar
-    --border-calendar: rgba(255, 255, 255, 0.12);
-    --shadow-calendar: 0 0 3px rgba(255, 255, 255, 0.6),
-      0 0 2px rgba(255, 255, 255, 0.4), 0 0 1px rgba(255, 255, 255, 0.8);
-    // date picker
-    --bg-date: 168, 163, 176;
-    --bg-tabs-active: 168, 163, 176;
-  }
+    &:not(.theme-dark) {
+        --bg-default: #f2f2f2;
+        --bg-white: #ffffff;
+        --bg-black: #000000;
+        --bg-gray: #dedede;
+        --text-white: #ffffff;
+        --text-black: #000000;
+        --text-label: #7a83a6;
+        --border-gray: rgba(0, 0, 0, 0.24);
+        --button-bg: #e8e8e85a;
+        --text-gray: #71717a;
+        --color-primary: hsl(210, 100%, 45%);
+        --modal-overlay: rgba(0, 0, 0, 0.45);
+        --resize-image-overlay: rgba(0, 0, 0, 0.6);
+        --items-active: #595067;
+        --red-light: #fff3f3;
+        // calendar
+        --border-calendar: rgba(0, 0, 0, 0.32);
+        --shadow-calendar: 0 0 3px rgba(0, 0, 0, 0.16), 0 0 2px rgba(0, 0, 0, 0.4), 0 0 1px rgba(0, 0, 0, 0.8);
+        // date picker
+        --bg-date: 89, 80, 103;
+        --bg-tabs-active: 89, 80, 103;
+    }
+    &.theme-dark {
+        --bg-default: #2e2e2e;
+        --bg-white: #282828;
+        --bg-gray: #323232;
+        --text-white: #000000;
+        --text-black: #ffffff;
+        --text-label: #a29a8e;
+        --border-gray: #575757;
+        --button-bg: #37393daa;
+        --text-gray: #bebebe;
+        --color-primary: hsl(210, 100%, 50%);
+        --modal-overlay: #6e696973;
+        --resize-image-overlay: rgba(80, 80, 80, 0.6);
+        --items-active: #d3d0d8;
+        --red-light: #372828;
+        // calendar
+        --border-calendar: rgba(255, 255, 255, 0.12);
+        --shadow-calendar: 0 0 3px rgba(255, 255, 255, 0.6), 0 0 2px rgba(255, 255, 255, 0.4),
+            0 0 1px rgba(255, 255, 255, 0.8);
+        // date picker
+        --bg-date: 168, 163, 176;
+        --bg-tabs-active: 168, 163, 176;
+    }
 }
 
 $red-default: var(--red-default);
@@ -83,26 +84,28 @@ $bg-tabs-active: var(--bg-tabs-active);
 $text-label: var(--text-label);
 $items-active: var(--items-active);
 $red-hover: var(--red-hover);
+$red-light: var(--red-light);
 
 $colors: (
-  "red-default": $red-default,
-  "red-hover": $red-hover,
-  "orange-default": $orange-default,
-  "green-default": $green-default,
-  "text-white": $text-white,
-  "text-black": $text-black,
-  "border-gray": $border-gray,
-  "bg-gray": $bg-gray,
-  "bg-default": $bg-default,
-  "bg-white": $bg-white,
-  "bg-black": $bg-black,
-  "border-gray-dark": $border-gray-dark,
-  "button-bg": $button-bg,
-  "white-default": $white-default,
-  "text-gray": $text-gray,
-  "color-primary": $color-primary,
-  "color-primary-dark": $color-primary-dark,
-  "color-primary-light": $color-primary-light,
-  "purple-default": $purple-default,
-  "items-active": $items-active,
+    'red-default': $red-default,
+    'red-hover': $red-hover,
+    'red-light': $red-light,
+    'orange-default': $orange-default,
+    'green-default': $green-default,
+    'text-white': $text-white,
+    'text-black': $text-black,
+    'border-gray': $border-gray,
+    'bg-gray': $bg-gray,
+    'bg-default': $bg-default,
+    'bg-white': $bg-white,
+    'bg-black': $bg-black,
+    'border-gray-dark': $border-gray-dark,
+    'button-bg': $button-bg,
+    'white-default': $white-default,
+    'text-gray': $text-gray,
+    'color-primary': $color-primary,
+    'color-primary-dark': $color-primary-dark,
+    'color-primary-light': $color-primary-light,
+    'purple-default': $purple-default,
+    'items-active': $items-active
 );

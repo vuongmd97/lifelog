@@ -1,4 +1,4 @@
-import { useReducer, forwardRef, useImperativeHandle } from 'react';
+import { useReducer, forwardRef, useImperativeHandle, useEffect } from 'react';
 import { reducer } from '../../const/Reducer';
 
 const Input = forwardRef(
@@ -11,7 +11,7 @@ const Input = forwardRef(
             placeholder,
             classWrapper = '',
             classWrapperInput = '',
-            classInput,
+            classInput = '',
             classLabel = 'txt',
             initValue = '',
             isRequired,
@@ -28,6 +28,12 @@ const Input = forwardRef(
         });
 
         const { value, stateError } = state;
+
+        useEffect(() => {
+            dispatchState({
+                stateError: error
+            });
+        }, [error]);
 
         useImperativeHandle(ref, () => ({
             _getValue,
@@ -51,8 +57,8 @@ const Input = forwardRef(
             });
         };
 
-        const _onChange = (e) => {
-            const { value } = e.target;
+        const _onChange = (event) => {
+            const { value } = event.target;
 
             switch (type) {
                 case 'number':
@@ -74,13 +80,14 @@ const Input = forwardRef(
                     });
                     break;
             }
+
             onChange(event);
         };
 
         const renderInput = () => {
             const result = (
                 <input
-                    className={`field-input ${classInput}`}
+                    className={`field-input ${classInput} ${stateError ? '--error' : ''}`}
                     name={name}
                     type={type}
                     placeholder={placeholder}
@@ -107,6 +114,12 @@ const Input = forwardRef(
             <div className={classWrapper || 'rows'}>
                 {label && _renderLabel()}
                 <div className={classWrapperInput}>{renderInput()}</div>
+                {stateError && (
+                    <span className="txt-incorrect">
+                        {/* {isShowIconError ? <IconError /> : null} */}
+                        {stateError}
+                    </span>
+                )}
             </div>
         );
     }

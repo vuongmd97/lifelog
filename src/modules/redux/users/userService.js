@@ -20,5 +20,14 @@ export const UserService = {
 
         if (error) throw error;
         return data;
+    },
+
+    async updatePassword(newPassword) {
+        const { error } = await supabase.auth.updateUser({
+            password: newPassword
+        });
+
+        if (error) throw error;
+        return true;
     }
 };

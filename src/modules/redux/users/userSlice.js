@@ -13,6 +13,11 @@ export const upsertProfiles = createAsyncThunk('user/upsertProfiles', async (pro
     return data;
 });
 
+export const updatePassword = createAsyncThunk('user/updatePassword', async (newPassword) => {
+    await UserService.updatePassword(newPassword);
+    return true;
+});
+
 const initialState = {
     loading: true,
     error: null,
@@ -43,6 +48,11 @@ const userSlice = createSlice({
                 state.profiles = action.payload;
             })
             .addCase(upsertProfiles.rejected, (state, action) => {
+                state.error = action.error.message;
+            })
+
+            // Update password
+            .addCase(updatePassword.rejected, (state, action) => {
                 state.error = action.error.message;
             });
     }
