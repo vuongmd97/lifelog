@@ -9,8 +9,11 @@ import ButtonLoading from '../../../components/loaders/ButtonLoading';
 //
 import IconEye from '../../../assets/svg/IconEye';
 import classNames from 'classnames';
+import useSiteTitle from '../../../hook/useSiteTitle';
 
 export default function Signin() {
+    useSiteTitle('login');
+
     const { t } = useTranslation(['auth']);
     const dispatch = useDispatch();
     const [state, dispatchState] = useReducer(reducer, {

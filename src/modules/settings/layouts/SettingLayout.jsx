@@ -9,7 +9,7 @@ export default function SettingLayout() {
     return (
         <div className="container container-settings">
             <SideMenu />
-            <div className="contents-pages flex-1">
+            <div className="contents-pages scrolls flex-1">
                 <Routes>
                     {SETTINGS_ROUTES.map((route) => (
                         <Route key={route.path} path={route.path} element={route.element} />

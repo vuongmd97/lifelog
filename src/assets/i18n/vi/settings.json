@@ -56,5 +56,8 @@
   "status": "Trạng thái",
   "all": "Tất cả",
 
-  "upload_new_avatar": "Tải ảnh đại diện mới"
+  "upload_new_avatar": "Tải ảnh đại diện mới",
+
+  "success_update_customer_info": "Cập nhật thông tin khách hàng thành công.",
+  "success_update_password": "Cập nhật mật khẩu thành công."
 }

@@ -6,18 +6,23 @@ import { upsertProfiles, updatePassword } from '../../redux/users/userSlice';
 //
 import UsersInfo from './components/UsersInfo';
 import UsersForm from './components/UsersForm';
+import useSiteTitle from '../../../hook/useSiteTitle';
+import { Toast } from '../../../components/toast/Toast';
 
 export default function Users() {
+    useSiteTitle('users');
+
     const profiles = useSelector((state) => state.user.profiles);
     const dispatch = useDispatch();
-    const { t } = useTranslation(['auth']);
+    const { t } = useTranslation(['auth', 'settings']);
     const [state, dispatchState] = useReducer(reducer, {
         isEdit: false,
+        loading: false,
         msgError: {},
-        loading: false
+        msgSuccess: ''
     });
 
-    const { isEdit, msgError, loading } = state;
+    const { isEdit, msgError, msgSuccess, loading } = state;
 
     const _onEdit = () => dispatchState({ isEdit: true });
     const _offEdit = () => dispatchState({ isEdit: false, msgError: {} });
@@ -89,10 +94,18 @@ export default function Users() {
 
             if (hasDataChanged(data)) {
                 await dispatch(upsertProfiles(profileData)).unwrap();
+
+                dispatchState({
+                    msgSuccess: t('settings:success_update_customer_info')
+                });
             }
 
             if (data.new_password) {
                 await dispatch(updatePassword(data.new_password)).unwrap();
+
+                dispatchState({
+                    msgSuccess: t('settings:success_update_password')
+                });
             }
 
             _offEdit();
@@ -118,7 +131,10 @@ export default function Users() {
     };
 
     return (
-        <>
+        <div className="page-users">
+            {msgSuccess && (
+                <Toast desc={msgSuccess} status="success" onClose={() => dispatchState({ msgSuccess: '' })} />
+            )}
             {isEdit ? (
                 <UsersForm
                     data={profiles || {}}
@@ -132,6 +148,6 @@ export default function Users() {
             ) : (
                 <UsersInfo data={profiles || {}} onEdit={_onEdit} />
             )}
-        </>
+        </div>
     );
 }

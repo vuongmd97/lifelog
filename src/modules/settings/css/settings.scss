@@ -74,11 +74,16 @@
     }
 
     .contents-pages {
+        position: relative;
+        padding: 20px 0;
+    }
+
+    .page-users {
         max-width: 500px;
         border: 1px solid $border-gray;
         border-radius: 4px;
         padding: 24px;
-        margin: 20px auto 0;
+        margin: 0 auto;
         background-color: $bg-white;
     }
 

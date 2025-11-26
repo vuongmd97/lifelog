@@ -6,8 +6,11 @@ import { useReducer } from 'react';
 import { handleSignUp } from '../authSlice';
 import { validateEmail } from '../../../utils/EmailUtils';
 import SpinnerLoading from '../../../components/loaders/SpinnerLoading';
+import useSiteTitle from '../../../hook/useSiteTitle';
 
 export default function Signup() {
+    useSiteTitle('sign_up');
+
     const dispatch = useDispatch();
 
     const { t } = useTranslation(['auth']);
