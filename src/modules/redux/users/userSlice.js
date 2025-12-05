@@ -18,6 +18,12 @@ export const updatePassword = createAsyncThunk('user/updatePassword', async (new
     return true;
 });
 
+export const uploadAvatar = createAsyncThunk('user/uploadAvatar', async (file, { getState }) => {
+    const userId = getState().auth.userId;
+    const data = await UserService.uploadAvatar(file, userId);
+    return data;
+});
+
 const initialState = {
     loading: true,
     error: null,
@@ -53,6 +59,10 @@ const userSlice = createSlice({
 
             // Update password
             .addCase(updatePassword.rejected, (state, action) => {
+                state.error = action.error.message;
+            })
+            // upload avatar
+            .addCase(uploadAvatar.rejected, (state, action) => {
                 state.error = action.error.message;
             });
     }

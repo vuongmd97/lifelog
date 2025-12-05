@@ -13,3 +13,11 @@ npm install react-error-boundary
 <!-- Cài môi trường để test UNIT TEST -->
 
 npm install --save-dev vitest
+
+<!-- Chỉnh sửa avatar resize,... -->
+
+npm install react-avatar-editor
+
+<!-- Show modal ở Root -->
+
+npm install react-modal

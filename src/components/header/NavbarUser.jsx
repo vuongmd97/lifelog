@@ -14,7 +14,7 @@ export default function NavbarUser() {
 
     const profiles = useSelector((state) => state?.user?.profiles);
 
-    const { first_name, last_name } = profiles;
+    const { first_name, avatar_url } = profiles;
 
     const [refMenu, isMenuVisible, setIsMenuVisible] = useClickOutside(false);
 
@@ -35,9 +35,13 @@ export default function NavbarUser() {
         >
             <div className="btn-default user" onClick={handleActiveMenu}>
                 <div className="user__avt">
-                    <IconDefaultAvatar />
+                    {avatar_url ? (
+                        <img src={avatar_url} alt="avatar" width={32} height={32} />
+                    ) : (
+                        <IconDefaultAvatar className="img" />
+                    )}
                 </div>
-                <div className="user__name">{`${first_name} ${last_name}`}</div>
+                <div className="user__name">{`${first_name || ''}`}</div>
                 <div className="arrow">
                     <IconArrow />
                 </div>

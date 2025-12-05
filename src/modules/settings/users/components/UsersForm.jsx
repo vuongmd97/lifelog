@@ -1,16 +1,28 @@
-import { forwardRef } from 'react';
+import { forwardRef, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 //
 import Input from '../../../../components/input/Input';
-import IconDefaultAvatar from '../../../../assets/svg/IconDefaultAvatar';
-import IconTrash from '../../../../assets/svg/IconTrash';
 import ButtonLoading from '../../../../components/loaders/ButtonLoading';
+import UsersAvatar from './UsersAvatar';
 
 const UsersForm = forwardRef(
-    ({ data, error, saveLoading, clearErrors = () => {}, onClose = () => {}, onSubmit = () => {} }, ref) => {
-        const { t } = useTranslation(['settings', 'auth']);
+    (
+        {
+            data,
+            error,
+            saveLoading,
+            clearErrors = () => {},
+            onClose = () => {},
+            onSubmit = () => {},
+            onChangeAvatar = () => {},
+            avatarUrl
+        },
+        ref
+    ) => {
+        const { t } = useTranslation('settings');
 
-        const { first_name, last_name, phone, avatar_url } = data;
+        const { first_name, last_name, phone } = data;
+        const refAvatar = useRef(null);
 
         const onChange = (e) => {
             const { name } = e.target;
@@ -19,22 +31,7 @@ const UsersForm = forwardRef(
 
         return (
             <form onSubmit={onSubmit} className="form-editing">
-                <div className="form-header flex-betweenitems align-top">
-                    <div className="avatar-img">
-                        {avatar_url ? (
-                            <img src={avatar_url} alt="avatar" width={40} height={40} />
-                        ) : (
-                            <IconDefaultAvatar className="img" />
-                        )}
-                    </div>
-
-                    <div className="flexcenter gap-8">
-                        <div className="btn-default">{t('upload_new_avatar')}</div>
-                        <div className="btn-default --icon-lg --transparent svg-10 --delete">
-                            <IconTrash />
-                        </div>
-                    </div>
-                </div>
+                <UsersAvatar urlAvatar={avatarUrl} ref={refAvatar} onChangeAvatar={onChangeAvatar} />
                 <div className="form-content">
                     <div className="flextop gap-8">
                         <Input

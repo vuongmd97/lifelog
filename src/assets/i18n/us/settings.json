@@ -59,5 +59,8 @@
   "upload_new_avatar": "Upload New Avatar",
 
   "success_update_customer_info": "Customer information updated successfully.",
-  "success_update_password": "Password updated successfully."
+  "success_update_password": "Password updated successfully.",
+
+  "invalid_upload_image": "{{fileName}} has invalid extension. Only gif, png, jpg, jpeg are allowed.",
+  "maximum_file_size": "The maximum allowed file size is {{size}} {{unit}}."
 }

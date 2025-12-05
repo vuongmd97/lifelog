@@ -29,5 +29,23 @@ export const UserService = {
 
         if (error) throw error;
         return true;
+    },
+
+    async uploadAvatar(file, userId) {
+        const fileName = `${userId}/avatar.jpg`;
+
+        const { data, error } = await supabase.storage.from('avatars').upload(fileName, file, {
+            contentType: file.type,
+            upsert: true,
+            cacheControl: '0'
+        });
+
+        if (error) throw error;
+
+        const {
+            data: { publicUrl }
+        } = supabase.storage.from('avatars').getPublicUrl(data.path);
+
+        return `${publicUrl}?t=${Date.now()}`;
     }
 };

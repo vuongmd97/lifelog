@@ -59,5 +59,10 @@
   "upload_new_avatar": "Tải ảnh đại diện mới",
 
   "success_update_customer_info": "Cập nhật thông tin khách hàng thành công.",
-  "success_update_password": "Cập nhật mật khẩu thành công."
+  "success_update_password": "Cập nhật mật khẩu thành công.",
+
+  "invalid_upload_image": "{{fileName}} có phần mở rộng không hợp lệ. Chỉ cho phép các định dạng gif, png, jpg, jpeg.",
+  "maximum_file_size": "Kích thước tệp tối đa cho phép là {{size}} {{unit}}."
+
+
 }

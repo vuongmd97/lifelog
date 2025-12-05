@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import IconDefaultAvatar from '../../../../assets/svg/IconDefaultAvatar';
 
 export default function UsersInfo({ data, onEdit = () => {} }) {
-    const { t } = useTranslation(['settings']);
+    const { t } = useTranslation('settings');
 
     const _renderRows = (label, description) => {
         return (
@@ -23,7 +23,7 @@ export default function UsersInfo({ data, onEdit = () => {} }) {
             <div className="form-header">
                 <div className="avatar-img">
                     {data.avatar_url ? (
-                        <img src={data.avatar_url} alt="avatar" />
+                        <img src={data.avatar_url} className="img" alt="avatar" width={40} height={40} />
                     ) : (
                         <IconDefaultAvatar className="img" />
                     )}
