@@ -62,7 +62,7 @@
   "success_update_password": "Cập nhật mật khẩu thành công.",
 
   "invalid_upload_image": "{{fileName}} có phần mở rộng không hợp lệ. Chỉ cho phép các định dạng gif, png, jpg, jpeg.",
-  "maximum_file_size": "Kích thước tệp tối đa cho phép là {{size}} {{unit}}."
+  "maximum_file_size": "Kích thước tệp tối đa cho phép là {{size}} {{unit}}.",
 
-
+  "resize_avatar": "Thay đổi ảnh đại diện"
 }

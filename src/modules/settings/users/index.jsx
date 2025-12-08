@@ -14,7 +14,7 @@ export default function Users() {
 
     const profiles = useSelector((state) => state.user.profiles);
     const dispatch = useDispatch();
-    const { t } = useTranslation(['auth', 'settings']);
+    const { t } = useTranslation('auth');
     const [state, dispatchState] = useReducer(reducer, {
         isEdit: false,
         loading: false,
@@ -160,7 +160,7 @@ export default function Users() {
     };
 
     return (
-        <div className="page-users">
+        <div className="wrapper-form page-users">
             {msgSuccess && (
                 <Toast desc={msgSuccess} status="success" onClose={() => dispatchState({ msgSuccess: '' })} />
             )}

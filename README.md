@@ -21,3 +21,11 @@ npm install react-avatar-editor
 <!-- Show modal ở Root -->
 
 npm install react-modal
+
+<!-- Cài đặt Fullcalendar -->
+
+npm install @fullcalendar/react @fullcalendar/daygrid @fullcalendar/timegrid @fullcalendar/interaction
+
+<!-- Cài đặt react color, date picker và textarea autosize -->
+
+npm install react-color react-datepicker react-textarea-autosize

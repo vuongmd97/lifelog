@@ -13,7 +13,7 @@ const SLIDER_MAX = 100;
 const SLIDER_STEP = 1;
 
 const ModalResizeImage = forwardRef(({ onCancel = () => {}, onSave = () => {} }, ref) => {
-    const { t } = useTranslation('common');
+    const { t } = useTranslation('settings');
     const [state, dispatchState] = useReducer(reducer, {
         scale: 1,
         isOpen: false,
@@ -97,7 +97,7 @@ const ModalResizeImage = forwardRef(({ onCancel = () => {}, onSave = () => {} },
             <div className="modal__overlay" onClick={handleClose}></div>
             <div className="modal__container --sm">
                 <div className="modal-header">
-                    <p className="header-title">Resize Avatar</p>
+                    <p className="header-title">{t('resize_avatar')}</p>
                     <div className="btn-default --icon-lg --transparent" onClick={handleClose}>
                         <IconClose />
                     </div>
@@ -148,10 +148,10 @@ const ModalResizeImage = forwardRef(({ onCancel = () => {}, onSave = () => {} },
 
                 <div className="modal-footer">
                     <div className="btn-default --transparent" onClick={handleClose}>
-                        Cancel
+                        {t('cancel')}
                     </div>
                     <div className="btn-main" onClick={handleSave}>
-                        Save
+                        {t('save')}
                     </div>
                 </div>
             </div>
