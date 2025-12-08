@@ -3,10 +3,14 @@ import { useTranslation } from 'react-i18next';
 import AvatarEditor from 'react-avatar-editor';
 import ReactModal from 'react-modal';
 import { reducer } from '../../../../const/Reducer';
+import { base64ToFile } from '../../../../utils/FileUtils';
 import IconPlus from '../../../../assets/svg/IconPlus';
 import IconMinus from '../../../../assets/svg/IconMinus';
 import IconClose from '../../../../assets/svg/IconClose';
-import { base64ToFile } from '../../../../utils/FileUtils';
+
+const SLIDER_MIN = 0;
+const SLIDER_MAX = 100;
+const SLIDER_STEP = 1;
 
 const ModalResizeImage = forwardRef(({ onCancel = () => {}, onSave = () => {} }, ref) => {
     const { t } = useTranslation('common');
@@ -19,6 +23,8 @@ const ModalResizeImage = forwardRef(({ onCancel = () => {}, onSave = () => {} },
     const { scale, isOpen, imageFile } = state;
 
     const refAvatarEditor = useRef(null);
+    const refRangeInput = useRef(null);
+    const refOverlay = useRef(null);
 
     const handleOpen = ({ imageFile, fileName, type = 'avatar' }) => {
         dispatchState({ isOpen: true, imageFile, fileName, type });
@@ -36,6 +42,7 @@ const ModalResizeImage = forwardRef(({ onCancel = () => {}, onSave = () => {} },
 
     const handleSave = async () => {
         const base64Image = refAvatarEditor.current.getImage().toDataURL();
+
         const file = await base64ToFile(base64Image, 'avatars', 'image/png');
 
         onSave({
@@ -44,6 +51,44 @@ const ModalResizeImage = forwardRef(({ onCancel = () => {}, onSave = () => {} },
         });
 
         handleClose();
+    };
+
+    const handleChangeOverlay = (value) => {
+        if (refOverlay.current) {
+            refOverlay.current.style.width = `${(value / SLIDER_MAX) * 100}%`;
+        }
+    };
+
+    const updateScale = (newValue) => {
+        refRangeInput.current.value = newValue;
+
+        const scale = 1 + newValue / SLIDER_MAX;
+        dispatchState((prev) => ({ ...prev, scale }));
+
+        handleChangeOverlay(newValue);
+    };
+
+    const incrementScale = () => {
+        const currValue = Number(refRangeInput.current.value);
+        const newValue = Math.min(currValue + SLIDER_STEP, SLIDER_MAX);
+        updateScale(newValue);
+    };
+
+    const decrementScale = () => {
+        const currValue = Number(refRangeInput.current.value);
+        const newValue = Math.max(currValue - SLIDER_STEP, SLIDER_MIN);
+        updateScale(newValue);
+    };
+
+    const handleScale = (e) => {
+        const value = Number(e.target.value);
+        const scale = 1 + value / 100;
+
+        dispatchState((prev) => ({
+            ...prev,
+            scale
+        }));
+        handleChangeOverlay(value);
     };
 
     if (!isOpen) return null;
@@ -58,7 +103,7 @@ const ModalResizeImage = forwardRef(({ onCancel = () => {}, onSave = () => {} },
                     </div>
                 </div>
 
-                <div className="modal-body">
+                <div className="modal-body flex-column align-center">
                     <div className="wrap-image">
                         <AvatarEditor
                             ref={refAvatarEditor}
@@ -77,11 +122,23 @@ const ModalResizeImage = forwardRef(({ onCancel = () => {}, onSave = () => {} },
                     <div className="resize-action">
                         <div className="range-slider">
                             <div className="range-slider__wrap">
-                                <div className="btn-default --icon-lg --transparent">
+                                <div className="btn-default --icon-lg --transparent" onClick={decrementScale}>
                                     <IconMinus />
                                 </div>
-                                <input type="range" className="range" min="1" max="3" step="0.1" />
-                                <div className="btn-default --icon-lg --transparent">
+                                <div className="progress-bar relative flex-1">
+                                    <div ref={refOverlay} className="range-overlay"></div>
+                                    <input
+                                        ref={refRangeInput}
+                                        onChange={handleScale}
+                                        type="range"
+                                        className="range"
+                                        min={SLIDER_MIN}
+                                        max={SLIDER_MAX}
+                                        step={SLIDER_STEP}
+                                        defaultValue={SLIDER_MIN}
+                                    />
+                                </div>
+                                <div className="btn-default --icon-lg --transparent" onClick={incrementScale}>
                                     <IconPlus />
                                 </div>
                             </div>

@@ -36,8 +36,7 @@ export const UserService = {
 
         const { data, error } = await supabase.storage.from('avatars').upload(fileName, file, {
             contentType: file.type,
-            upsert: true,
-            cacheControl: '0'
+            upsert: true
         });
 
         if (error) throw error;
