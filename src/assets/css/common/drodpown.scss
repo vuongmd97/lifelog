@@ -18,6 +18,8 @@
         left: 0;
         top: calc(100% + 4px);
         width: 100%;
+        height: auto;
+        max-height: 300px;
         z-index: 1;
 
         &.content-full {

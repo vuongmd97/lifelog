@@ -26,6 +26,30 @@ npm install react-modal
 
 npm install @fullcalendar/react @fullcalendar/daygrid @fullcalendar/timegrid @fullcalendar/interaction
 
+<!-- Google Calendar API của FullCalendar để tự động lấy holidays -->
+
+npm install @fullcalendar/google-calendar
+
 <!-- Cài đặt react color, date picker và textarea autosize -->
 
 npm install react-color react-datepicker react-textarea-autosize
+
+<!-- date format
+
+    'MMMM yyyy' → December 2024
+    'MM/yyyy' → 12/2024
+    'MMM yyyy' → Dec 2024
+    'MMMM, yyyy' → December, 2024
+
+ -->
+
+npm install date-fns
+
+<!-- Dropdown popper
+    phải dùng react 18
+
+    npm uninstall react react-dom
+    npm install react@18 react-dom@18
+-->
+
+npm install @popperjs/core react-popper

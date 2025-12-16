@@ -5,6 +5,9 @@ import { initReactI18next } from 'react-i18next';
 import commonUs from './us/common';
 import commonVi from './vi/common';
 
+import calendarUs from './us/calendar';
+import calendarVi from './vi/calendar';
+
 import settingsUs from './us/settings';
 import settingsVi from './vi/settings';
 
@@ -17,6 +20,7 @@ import pageTitleVi from './vi/pageTitle';
 const resources = {
     en: {
         common: commonUs,
+        calendar: calendarUs,
         settings: settingsUs,
         pageTitle: pageTitleUs,
         auth: authUs
@@ -24,6 +28,7 @@ const resources = {
 
     vi: {
         common: commonVi,
+        calendar: calendarVi,
         settings: settingsVi,
         pageTitle: pageTitleVi,
         auth: authVi
