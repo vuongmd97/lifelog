@@ -1,9 +1,22 @@
 import classNames from 'classnames';
-import { forwardRef, useImperativeHandle, useRef, cloneElement, useEffect } from 'react';
+import { forwardRef, useImperativeHandle, useRef, cloneElement, useEffect, useState } from 'react';
 import { usePopper } from 'react-popper';
 import useClickOutside from '../../hook/useClickOutside';
+
 //
 import IconArrow from '../../assets/svg/IconArrow';
+
+const SAME_WIDTH_MODIFIER = {
+    name: 'sameWidth',
+    enabled: true,
+    phase: 'beforeWrite',
+    requires: ['computeStyles'],
+    fn: ({ state }) => {
+        state.styles.popper.width = `${state.rects.reference.width}px`;
+    }
+};
+
+const DEFAULT_MODIFIERS = [{ name: 'offset', options: { offset: [0, 5] } }, SAME_WIDTH_MODIFIER];
 
 const DropdownPopper = forwardRef(
     (
@@ -22,28 +35,14 @@ const DropdownPopper = forwardRef(
     ) => {
         const refPreference = useRef(null);
         const refPopper = useRef(null);
+        const [mounted, setMounted] = useState(true);
 
         const [refDropdownPopper, isVisible, setIsVisible] = useClickOutside(false);
-
-        const sameWidth = {
-            name: 'sameWidth',
-            enabled: true,
-            phase: 'beforeWrite',
-            requires: ['computeStyles'],
-            fn: ({ state }) => {
-                state.styles.popper.width = `${state.rects.reference.width}px`;
-            },
-            effect: ({ state }) => {
-                state.elements.popper.style.width = `${state.elements.reference.offsetWidth}px`;
-            }
-        };
-
-        const defaultModifiers = [{ name: 'offset', options: { offset: [0, 5] } }, sameWidth];
 
         const { styles, attributes, update } = usePopper(refPreference.current, refPopper.current, {
             placement,
             strategy,
-            modifiers: modifiers || defaultModifiers
+            modifiers: modifiers || DEFAULT_MODIFIERS
         });
 
         useEffect(() => {
@@ -51,6 +50,10 @@ const DropdownPopper = forwardRef(
                 update?.();
             }
         }, [isVisible, update]);
+
+        useEffect(() => {
+            if (mounted) setMounted(false);
+        }, []);
 
         useImperativeHandle(ref, () => ({
             _open,
@@ -79,7 +82,7 @@ const DropdownPopper = forwardRef(
                     {customButton || dropdownIcon}
                 </div>
 
-                {isVisible && (
+                {(mounted || isVisible) && (
                     <div ref={refPopper} style={styles.popper} {...attributes.popper} className={wrapperListClass}>
                         {typeof children?.type === 'string' ? children : cloneElement(children, { update })}
                     </div>

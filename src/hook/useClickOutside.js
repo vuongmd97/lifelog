@@ -20,17 +20,14 @@ export default function useClickOutside(initialIsVisible, idPreventClose = '') {
     };
 
     useEffect(() => {
-        if (isComponentVisible) {
-            document.addEventListener('keydown', handleHideDropdown, true);
-            document.addEventListener('click', handleClickOutside, true);
-        } else {
-            document.removeEventListener('click', handleClickOutside, true);
-            document.removeEventListener('keydown', handleHideDropdown, true);
-        }
+        if (!isComponentVisible) return;
+
+        document.addEventListener('keydown', handleHideDropdown);
+        document.addEventListener('click', handleClickOutside);
 
         return () => {
-            document.removeEventListener('keydown', handleHideDropdown, true);
-            document.removeEventListener('click', handleClickOutside, true);
+            document.removeEventListener('keydown', handleHideDropdown);
+            document.removeEventListener('click', handleClickOutside);
         };
     }, [isComponentVisible]);
 
