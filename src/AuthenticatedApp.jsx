@@ -3,19 +3,23 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { ROUTES_CONFIG } from './config/router/router';
 import { fetchUserProfile } from './modules/redux/users/userSlice';
+import { fetchPreferences } from './modules/redux/calendar/calendarSlice';
+//
 import MainLoading from './components/loaders/MainLoading';
 import Header from './components/header';
 import Sidebar from './components/sidebar';
 
 export default function AuthenticatedApp() {
     const dispatch = useDispatch();
-    const loading = useSelector((state) => state.user.loading);
+    const loadingUser = useSelector((state) => state.user.loading);
+    const loadPreferences = useSelector((state) => state.calendar.loadPreferences);
 
     useEffect(() => {
         dispatch(fetchUserProfile());
+        dispatch(fetchPreferences());
     }, []);
 
-    if (loading) return <MainLoading />;
+    if (loadingUser || loadPreferences) return <MainLoading />;
 
     return (
         <div className="lifelog">

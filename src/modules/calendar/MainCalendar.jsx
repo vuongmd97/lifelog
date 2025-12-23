@@ -1,4 +1,4 @@
-import { useRef, useEffect, useMemo, forwardRef, useReducer } from 'react';
+import { useRef, useEffect, useMemo, forwardRef, useReducer, useImperativeHandle } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { reducer } from '../../const/Reducer';
 //
@@ -44,7 +44,36 @@ const MainCalendar = forwardRef((props, ref) => {
     });
     const { events, settingsCalendar } = state;
 
+    const refWrapCalendar = useRef(null);
     const refCalendar = useRef(null);
+
+    const _getDate = () => {
+        return refCalendar.current.getApi().getDate();
+    };
+
+    const _getTitle = () => {
+        return refCalendar.current.getApi().view.title;
+    };
+
+    const _onNext = () => {
+        refCalendar.current.getApi().next();
+    };
+
+    const _onPrev = () => {
+        refCalendar.current.getApi().prev();
+    };
+
+    const _onToday = () => {
+        refCalendar.current.getApi().today();
+    };
+
+    useImperativeHandle(ref, () => ({
+        onNext: _onNext,
+        onPrev: _onPrev,
+        onToday: _onToday,
+        getDate: _getDate,
+        getTitle: _getTitle
+    }));
 
     const getSettingsCalendar = () => {
         const result = { ...settingsCalendar };
@@ -76,8 +105,29 @@ const MainCalendar = forwardRef((props, ref) => {
         return sources;
     }, []);
 
+    useEffect(() => {
+        if (!refCalendar.current) return;
+        refCalendar.current.getApi().changeView(currentView);
+    }, [currentView]);
+
+    // Handle calendar resize
+    useEffect(() => {
+        if (!refWrapCalendar.current) return;
+
+        const ro = new ResizeObserver(() => {
+            if (refCalendar.current) {
+                refCalendar.current.getApi().updateSize();
+            }
+        });
+
+        // listen refWrapCalendar size changes
+        ro.observe(refWrapCalendar.current);
+
+        return () => ro.disconnect();
+    }, [refCalendar]);
+
     return (
-        <div className="calendar-content">
+        <div ref={refWrapCalendar} className="calendar-content">
             <FullCalendar
                 ref={refCalendar}
                 plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, googleCalendarPlugin]}
@@ -85,6 +135,7 @@ const MainCalendar = forwardRef((props, ref) => {
                 droppable
                 eventSources={eventSources}
                 {...(getSettingsCalendar() || {})}
+                height="100%"
             />
         </div>
     );

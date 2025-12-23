@@ -1,13 +1,52 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { CalendarService } from './calendarService';
 
+export const fetchPreferences = createAsyncThunk('calendar/fetchPreferences', async (_, { getState }) => {
+    const userId = getState().auth.userId;
+    const data = await CalendarService.fetchPreferences(userId);
+    return data;
+});
+
+export const changeViews = createAsyncThunk('calendar/changeViews', async (payload, { getState }) => {
+    const userId = getState().auth.userId;
+    const { view, date = null } = payload;
+    const data = await CalendarService.changeViews(userId, view, date);
+    return data;
+});
+
+export const goToNextPeriodAsync = createAsyncThunk('calendar/goToNextPeriodAsync', async (newDate, { getState }) => {
+    const userId = getState().auth.userId;
+    const { currentView } = getState().calendar;
+
+    const data = await CalendarService.changeViews(userId, currentView, newDate);
+    return data;
+});
+
+export const goToPrevPeriodAsync = createAsyncThunk('calendar/goToPrevPeriodAsync', async (newDate, { getState }) => {
+    const userId = getState().auth.userId;
+    const { currentView } = getState().calendar;
+
+    const data = await CalendarService.changeViews(userId, currentView, newDate);
+    return data;
+});
+
+export const goToTodayAsync = createAsyncThunk('calendar/goToTodayAsync', async (newDate, { getState }) => {
+    const userId = getState().auth.userId;
+    const { currentView } = getState().calendar;
+
+    const data = await CalendarService.changeViews(userId, currentView, newDate);
+    return data;
+});
+
 const initialState = {
     currentView: 'dayGridMonth',
     dateSelected: new Date().toISOString(),
     dateFormat: 'YYYY-MM-DD',
     timezone: 'local',
     showHolidays: true,
-    holidayCountry: 'VN'
+    holidayCountry: 'VN',
+    error: null,
+    loadPreferences: false
 };
 
 const calendarSlice = createSlice({
@@ -31,65 +70,51 @@ const calendarSlice = createSlice({
         },
         setHolidayCountry: (state, action) => {
             state.holidayCountry = action.payload;
-        },
-        goToToday: (state) => {
-            state.dateSelected = new Date().toISOString();
-        },
-        goToNextPeriod: (state) => {
-            const date = new Date(state.dateSelected);
-
-            switch (state.currentView) {
-                case 'dayGridMonth': {
-                    date.setMonth(date.getMonth() + 1);
-                    break;
-                }
-                case 'timeGridWeek': {
-                    date.setDate(date.getDate() + 7);
-                    break;
-                }
-                case 'timeGridDay': {
-                    date.setDate(date.getDate() + 1);
-                    break;
-                }
-            }
-
-            state.dateSelected = date.toISOString();
-        },
-        goToPrevPeriod: (state) => {
-            const date = new Date(state.dateSelected);
-
-            switch (state.currentView) {
-                case 'dayGridMonth': {
-                    date.setMonth(date.getMonth() - 1);
-                    break;
-                }
-                case 'timeGridWeek': {
-                    date.setDate(date.getDate() - 7);
-                    break;
-                }
-                case 'timeGridDay': {
-                    date.setDate(date.getDate() - 1);
-                    break;
-                }
-            }
-
-            state.dateSelected = date.toISOString();
         }
     },
-    extraReducers: () => {}
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchPreferences.pending, (state) => {
+                state.loadPreferences = true;
+            })
+            .addCase(fetchPreferences.fulfilled, (state, action) => {
+                state.currentView = action.payload.current_view || state.currentView;
+                state.dateSelected = action.payload.current_date || state.dateSelected;
+                state.loadPreferences = false;
+            })
+            .addCase(fetchPreferences.rejected, (state, action) => {
+                state.error = action.error.message;
+                state.dateSelected = action.payload.current_date || state.dateSelected;
+                state.loadPreferences = false;
+            })
+
+            .addCase(goToNextPeriodAsync.fulfilled, (state, action) => {
+                state.currentView = action.payload.current_view;
+                state.dateSelected = action.payload.current_date;
+            })
+
+            .addCase(goToPrevPeriodAsync.fulfilled, (state, action) => {
+                state.currentView = action.payload.current_view;
+                state.dateSelected = action.payload.current_date;
+            })
+
+            .addCase(goToTodayAsync.fulfilled, (state, action) => {
+                state.currentView = action.payload.current_view;
+                state.dateSelected = action.payload.current_date;
+            })
+
+            .addCase(changeViews.fulfilled, (state, action) => {
+                state.currentView = action.payload.current_view;
+                state.dateSelected = action.payload.current_date;
+            })
+            .addCase(changeViews.rejected, (state, action) => {
+                state.error = action.error.message;
+            });
+    }
 });
 
-export const {
-    setCurrentView,
-    setDateSelected,
-    setDateFormat,
-    setTimezone,
-    setShowHolidays,
-    setHolidayCountry,
-    goToToday,
-    goToNextPeriod,
-    goToPrevPeriod
-} = calendarSlice.actions;
+export const { setCurrentView, setDateSelected, setDateFormat, setTimezone, setShowHolidays, setHolidayCountry } =
+    calendarSlice.actions;
 
 export default calendarSlice.reducer;
 

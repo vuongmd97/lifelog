@@ -17,6 +17,6 @@ export const GOOGLE_CALENDAR_API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
 
 export const CALENDAR_MODES = {
     DAY_GRID_MONTH: 'dayGridMonth',
-    DAY_GRID_WEEK: 'dayGridWeek',
-    DAY_GRID_DAY: 'dayGridDay'
+    DAY_GRID_WEEK: 'timeGridWeek',
+    DAY_GRID_DAY: 'timeGridDay'
 };
