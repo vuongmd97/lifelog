@@ -2,7 +2,6 @@ import { forwardRef, useRef, useReducer, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { reducer } from '../../../const/Reducer';
-import { format } from 'date-fns';
 import classNames from 'classnames';
 import IconArrow from '../../../assets/svg/IconArrow';
 import DropdownPopper from '../../../components/dropdowns/DropdownPopper';
@@ -77,8 +76,7 @@ const Header = forwardRef(
             onNext();
 
             setTimeout(() => {
-                const currentDate = getDate();
-                const newDate = format(currentDate, 'yyyy-MM-dd');
+                const newDate = getDate();
                 dispatch(changeViews({ view: currentView, date: newDate }));
                 updateTitle();
             }, 0);
@@ -88,8 +86,7 @@ const Header = forwardRef(
             onToday();
 
             setTimeout(() => {
-                const currentDate = getDate();
-                const newDate = format(currentDate, 'yyyy-MM-dd');
+                const newDate = getDate();
                 dispatch(changeViews({ view: currentView, date: newDate }));
                 updateTitle();
             }, 0);
@@ -99,8 +96,7 @@ const Header = forwardRef(
             onPrev();
 
             setTimeout(() => {
-                const currentDate = getDate();
-                const newDate = format(currentDate, 'yyyy-MM-dd');
+                const newDate = getDate();
                 dispatch(changeViews({ view: currentView, date: newDate }));
                 updateTitle();
             }, 0);
