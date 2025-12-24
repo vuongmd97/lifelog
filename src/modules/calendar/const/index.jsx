@@ -1,13 +1,13 @@
 export const HOLIDAY_CALENDARS = {
-    VN: {
+    vi: {
         id: 'vi.vietnamese#holiday@group.v.calendar.google.com',
         name: 'Holidays in Vietnam',
-        color: '#dc2626'
+        color: '#ea2424ff'
     },
-    US: {
+    en: {
         id: 'en.usa#holiday@group.v.calendar.google.com',
         name: 'Holidays in United States',
-        color: '#2563eb'
+        color: '#ea2485'
     }
 };
 

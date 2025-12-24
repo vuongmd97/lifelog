@@ -1,6 +1,8 @@
 import { useRef, useEffect, useMemo, forwardRef, useReducer, useImperativeHandle } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { reducer } from '../../const/Reducer';
+import { format } from 'date-fns';
+import { vi, enUS } from 'date-fns/locale';
 //
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -19,7 +21,12 @@ import {
     selectHolidayCountry
 } from '../redux/calendar/calendarSlice';
 
-const MainCalendar = forwardRef((props, ref) => {
+const DATE_FNS_LOCALES = {
+    vi: vi,
+    en: enUS
+};
+
+const MainCalendar = forwardRef((_, ref) => {
     const dispatch = useDispatch();
     const currentView = useSelector(selectCurrentView);
     const dateSelected = useSelector(selectDateSelected);
@@ -47,12 +54,44 @@ const MainCalendar = forwardRef((props, ref) => {
     const refWrapCalendar = useRef(null);
     const refCalendar = useRef(null);
 
+    const dateLocale = DATE_FNS_LOCALES[holidayCountry] || enUS;
+
     const _getDate = () => {
         return refCalendar.current.getApi().getDate();
     };
 
     const _getTitle = () => {
-        return refCalendar.current.getApi().view.title;
+        const api = refCalendar.current.getApi();
+        const view = api.view;
+        const date = api.getDate();
+
+        const fmt = (d, pattern) => format(d, pattern, { locale: dateLocale });
+
+        switch (view.type) {
+            case 'dayGridMonth':
+                return fmt(date, 'MMMM yyyy');
+
+            case 'timeGridWeek': {
+                const start = view.currentStart;
+                const end = new Date(view.currentEnd.getTime() - 1);
+
+                if (start.getFullYear() === end.getFullYear()) {
+                    if (start.getMonth() === end.getMonth()) {
+                        return `${fmt(start, 'MMM dd')} – ${fmt(end, 'dd, yyyy')}`;
+                    }
+
+                    return `${fmt(start, 'MMM dd')} – ${fmt(end, 'MMM dd, yyyy')}`;
+                }
+
+                return `${fmt(start, 'MMM dd, yyyy')} – ${fmt(end, 'MMM dd, yyyy')}`;
+            }
+
+            case 'timeGridDay':
+                return fmt(date, 'EEEE, MMM dd, yyyy');
+
+            default:
+                return view.title;
+        }
     };
 
     const _onNext = () => {
@@ -74,11 +113,6 @@ const MainCalendar = forwardRef((props, ref) => {
         getDate: _getDate,
         getTitle: _getTitle
     }));
-
-    const getSettingsCalendar = () => {
-        const result = { ...settingsCalendar };
-        return result;
-    };
 
     const eventSources = useMemo(() => {
         const sources = [];
@@ -103,7 +137,7 @@ const MainCalendar = forwardRef((props, ref) => {
         }
 
         return sources;
-    }, []);
+    }, [events, showHolidays, holidayCountry]);
 
     useEffect(() => {
         if (!refCalendar.current) return;
@@ -124,7 +158,7 @@ const MainCalendar = forwardRef((props, ref) => {
         ro.observe(refWrapCalendar.current);
 
         return () => ro.disconnect();
-    }, [refCalendar]);
+    }, []);
 
     return (
         <div ref={refWrapCalendar} className="calendar-content">
@@ -134,7 +168,7 @@ const MainCalendar = forwardRef((props, ref) => {
                 selectable
                 droppable
                 eventSources={eventSources}
-                {...(getSettingsCalendar() || {})}
+                {...settingsCalendar}
                 height="100%"
             />
         </div>

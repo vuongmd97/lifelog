@@ -44,7 +44,7 @@ const initialState = {
     dateFormat: 'YYYY-MM-DD',
     timezone: 'local',
     showHolidays: true,
-    holidayCountry: 'VN',
+    holidayCountry: 'en',
     error: null,
     loadPreferences: false
 };
