@@ -46,7 +46,12 @@ const initialState = {
     showHolidays: true,
     holidayCountry: 'en',
     error: null,
-    loadPreferences: false
+    loadPreferences: false,
+    viewRange: {
+        start: null,
+        end: null,
+        type: null
+    }
 };
 
 const calendarSlice = createSlice({
@@ -70,6 +75,9 @@ const calendarSlice = createSlice({
         },
         setHolidayCountry: (state, action) => {
             state.holidayCountry = action.payload;
+        },
+        setViewRange: (state, action) => {
+            state.viewRange = action.payload;
         }
     },
     extraReducers: (builder) => {
@@ -113,8 +121,15 @@ const calendarSlice = createSlice({
     }
 });
 
-export const { setCurrentView, setDateSelected, setDateFormat, setTimezone, setShowHolidays, setHolidayCountry } =
-    calendarSlice.actions;
+export const {
+    setCurrentView,
+    setDateSelected,
+    setDateFormat,
+    setTimezone,
+    setShowHolidays,
+    setHolidayCountry,
+    setViewRange
+} = calendarSlice.actions;
 
 export default calendarSlice.reducer;
 
@@ -125,4 +140,5 @@ export const selectDateFormat = (state) => state.calendar.dateFormat;
 export const selectTimezone = (state) => state.calendar.timezone;
 export const selectShowHolidays = (state) => state.calendar.showHolidays;
 export const selectHolidayCountry = (state) => state.calendar.holidayCountry;
+export const selectViewRange = (state) => state.calendar.viewRange;
 export const selectCalendarState = (state) => state.calendar;

@@ -10,6 +10,8 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import googleCalendarPlugin from '@fullcalendar/google-calendar';
 
+import SpinnerLoading from '../../components/loaders/SpinnerLoading';
+
 import { HOLIDAY_CALENDARS, GOOGLE_CALENDAR_API_KEY } from './const';
 
 //
@@ -18,7 +20,8 @@ import {
     selectDateSelected,
     selectTimezone,
     selectShowHolidays,
-    selectHolidayCountry
+    selectHolidayCountry,
+    setViewRange
 } from '../redux/calendar/calendarSlice';
 
 const DATE_FNS_LOCALES = {
@@ -36,6 +39,7 @@ const MainCalendar = forwardRef((_, ref) => {
 
     const [state, dispatchState] = useReducer(reducer, {
         events: [],
+        loadEvents: false,
         settingsCalendar: {
             timeZone: timezone,
             firstDay: 0,
@@ -49,7 +53,7 @@ const MainCalendar = forwardRef((_, ref) => {
             googleCalendarApiKey: GOOGLE_CALENDAR_API_KEY
         }
     });
-    const { events, settingsCalendar } = state;
+    const { events, settingsCalendar, loadEvents } = state;
 
     const refWrapCalendar = useRef(null);
     const refCalendar = useRef(null);
@@ -131,13 +135,13 @@ const MainCalendar = forwardRef((_, ref) => {
                 sources.push({
                     googleCalendarId: holidayCalendar.id,
                     color: holidayCalendar.color,
-                    className: 'holiday-event'
+                    className: 'events-none'
                 });
             }
         }
 
         return sources;
-    }, [events, showHolidays, holidayCountry]);
+    }, [events, showHolidays, holidayCountry, currentView]);
 
     useEffect(() => {
         if (!refCalendar.current) return;
@@ -160,6 +164,16 @@ const MainCalendar = forwardRef((_, ref) => {
         return () => ro.disconnect();
     }, []);
 
+    const handleDatesSet = (arg) => {
+        dispatch(
+            setViewRange({
+                start: arg.startStr,
+                end: arg.endStr,
+                type: arg.view.type
+            })
+        );
+    };
+
     return (
         <div ref={refWrapCalendar} className="calendar-content">
             <FullCalendar
@@ -170,7 +184,11 @@ const MainCalendar = forwardRef((_, ref) => {
                 eventSources={eventSources}
                 {...settingsCalendar}
                 height="100%"
+                loading={(loadEvents) => dispatchState({ loadEvents })}
+                datesSet={handleDatesSet}
             />
+
+            {loadEvents && <SpinnerLoading hasColor />}
         </div>
     );
 });

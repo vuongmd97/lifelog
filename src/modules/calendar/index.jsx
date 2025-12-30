@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import { useDispatch } from 'react-redux';
 //
 import useSiteTitle from '../../hook/useSiteTitle';
 import Header from './header';

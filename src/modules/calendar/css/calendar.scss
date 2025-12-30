@@ -36,6 +36,10 @@
             overflow: hidden;
             flex: 1;
             background-color: $bg-white;
+
+            .loader-spinner {
+                top: 50%;
+            }
         }
 
         .fc-theme-standard td,
@@ -158,16 +162,8 @@
             background-color: rgba($color: $bg-date, $alpha: 0.16);
         }
 
+        .timeGridWeek,
         .dayGridMonth {
-            .react-datepicker__day:not(.react-datepicker__day--outside-month) {
-                background-color: rgba($color: $bg-date, $alpha: 0.16);
-            }
-            .react-datepicker__day:not([aria-disabled='true']):hover {
-                background-color: $bg-gray;
-            }
-        }
-
-        .timeGridWeek {
             .react-datepicker__day--in-range,
             .react-datepicker__day--in-range:hover {
                 background-color: rgba($color: $bg-date, $alpha: 0.16);

@@ -1,20 +1,40 @@
 import { useSelector } from 'react-redux';
-import { format } from 'date-fns';
+import { format, startOfDay, endOfDay, startOfMonth, endOfMonth } from 'date-fns';
 //
 import DatePicker from 'react-datepicker';
 import IconArrow from '../../../assets/svg/IconArrow';
 import 'react-datepicker/dist/react-datepicker.css';
 
-import { selectCurrentView } from '../../redux/calendar/calendarSlice';
+import { selectCurrentView, selectViewRange } from '../../redux/calendar/calendarSlice';
 
 const Sidebar = () => {
     const currentView = useSelector(selectCurrentView);
+    const { start, end, type } = useSelector(selectViewRange);
+
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+
+    const actualEndDate = new Date(endDate.getTime() - 1);
+
+    let rangeStart, rangeEnd;
+
+    if (type === 'dayGridMonth') {
+        rangeStart = startOfMonth(startDate);
+        rangeEnd = endOfMonth(startDate);
+    } else {
+        rangeStart = startOfDay(startDate);
+        rangeEnd = endOfDay(actualEndDate);
+    }
 
     return (
         <div className="calendar__sidebar">
             <div className={currentView}>
                 <DatePicker
                     inline
+                    selected={startDate}
+                    startDate={rangeStart}
+                    endDate={rangeEnd}
+                    selectsRange
                     renderCustomHeader={({
                         date,
                         decreaseMonth,
