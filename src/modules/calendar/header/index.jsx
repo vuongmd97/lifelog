@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import IconArrow from '../../../assets/svg/IconArrow';
 import DropdownPopper from '../../../components/dropdowns/DropdownPopper';
 
-import { changeViews, setCurrentView, selectCurrentView } from '../../redux/calendar/calendarSlice';
+import { changeViews, setCurrentView, selectCurrentView, selectViewRange } from '../../redux/calendar/calendarSlice';
 
 import { CALENDAR_MODES } from '../const';
 
@@ -21,6 +21,10 @@ const Header = forwardRef(
 
         const { title } = state;
 
+        const { start } = useSelector(selectViewRange);
+
+        const calendarDate = getDate();
+
         const updateTitle = () => {
             const newTitle = getTitle();
 
@@ -32,10 +36,11 @@ const Header = forwardRef(
         useEffect(() => {
             const timer = setTimeout(() => {
                 updateTitle();
+                dispatch(changeViews({ view: currentView, date: calendarDate }));
             }, 100);
 
             return () => clearTimeout(timer);
-        }, [currentView]);
+        }, [currentView, start]);
 
         const getCalendarMode = () => [
             {
@@ -69,37 +74,18 @@ const Header = forwardRef(
             refDropdown.current._close();
             if (id === activeMode.id) return;
             dispatch(setCurrentView(id));
-            dispatch(changeViews({ view: id }));
         };
 
         const handleNext = () => {
             onNext();
-
-            setTimeout(() => {
-                const newDate = getDate();
-                dispatch(changeViews({ view: currentView, date: newDate }));
-                updateTitle();
-            }, 0);
         };
 
         const handleToday = () => {
             onToday();
-
-            setTimeout(() => {
-                const newDate = getDate();
-                dispatch(changeViews({ view: currentView, date: newDate }));
-                updateTitle();
-            }, 0);
         };
 
         const handlePrev = () => {
             onPrev();
-
-            setTimeout(() => {
-                const newDate = getDate();
-                dispatch(changeViews({ view: currentView, date: newDate }));
-                updateTitle();
-            }, 0);
         };
 
         return (

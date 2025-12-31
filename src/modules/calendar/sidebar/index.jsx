@@ -7,21 +7,22 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 import { selectCurrentView, selectViewRange } from '../../redux/calendar/calendarSlice';
 
-const Sidebar = () => {
+const Sidebar = ({ getDate = () => {} }) => {
     const currentView = useSelector(selectCurrentView);
     const { start, end, type } = useSelector(selectViewRange);
 
-    const startDate = new Date(start);
-    const endDate = new Date(end);
-
-    const actualEndDate = new Date(endDate.getTime() - 1);
+    const calendarDate = getDate() || new Date(start);
 
     let rangeStart, rangeEnd;
 
     if (type === 'dayGridMonth') {
-        rangeStart = startOfMonth(startDate);
-        rangeEnd = endOfMonth(startDate);
+        rangeStart = startOfMonth(calendarDate);
+        rangeEnd = endOfMonth(calendarDate);
     } else {
+        const startDate = new Date(start);
+        const endDate = new Date(end);
+        const actualEndDate = new Date(endDate.getTime() - 1);
+
         rangeStart = startOfDay(startDate);
         rangeEnd = endOfDay(actualEndDate);
     }
@@ -31,7 +32,7 @@ const Sidebar = () => {
             <div className={currentView}>
                 <DatePicker
                     inline
-                    selected={startDate}
+                    selected={calendarDate}
                     startDate={rangeStart}
                     endDate={rangeEnd}
                     selectsRange
