@@ -9,6 +9,7 @@ import DropdownPopper from '../../../components/dropdowns/DropdownPopper';
 import { changeViews, setCurrentView, selectCurrentView, selectViewRange } from '../../redux/calendar/calendarSlice';
 
 import { CALENDAR_MODES } from '../const';
+import { getTime } from 'date-fns';
 
 const Header = forwardRef(
     ({ onNext = () => {}, onPrev = () => {}, getDate = () => {}, getTitle = () => {}, onToday = () => {} }, ref) => {
@@ -21,7 +22,7 @@ const Header = forwardRef(
 
         const { title } = state;
 
-        const { start } = useSelector(selectViewRange);
+        const { start, end } = useSelector(selectViewRange);
 
         const calendarDate = getDate();
 
@@ -88,6 +89,14 @@ const Header = forwardRef(
             onPrev();
         };
 
+        const handleGetActiveToday = () => {
+            const currentDate = new Date();
+            const finalStartDate = new Date(start);
+            const finalEndDate = new Date(getTime(end) - 1);
+
+            return currentDate >= finalStartDate && currentDate <= finalEndDate;
+        };
+
         return (
             <div className="calendar-header">
                 <div className="header-items --left">
@@ -100,7 +109,10 @@ const Header = forwardRef(
                         <div className="tabs__items btn-default svg-9" onClick={handlePrev}>
                             <IconArrow left />
                         </div>
-                        <div className="tabs__items btn-default" onClick={handleToday}>
+                        <div
+                            className={classNames('tabs__items btn-default', { active: handleGetActiveToday() })}
+                            onClick={handleToday}
+                        >
                             Today
                         </div>
                         <div className="tabs__items btn-default title">{title}</div>

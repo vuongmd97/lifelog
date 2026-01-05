@@ -7,7 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 import { selectCurrentView, selectViewRange } from '../../redux/calendar/calendarSlice';
 
-const Sidebar = ({ getDate = () => {} }) => {
+const Sidebar = ({ getDate = () => {}, onDateChange = () => {} }) => {
     const currentView = useSelector(selectCurrentView);
     const { start, end, type } = useSelector(selectViewRange);
 
@@ -27,6 +27,10 @@ const Sidebar = ({ getDate = () => {} }) => {
         rangeEnd = endOfDay(actualEndDate);
     }
 
+    const handleDateChange = (date) => {
+        onDateChange(date);
+    };
+
     return (
         <div className="calendar__sidebar">
             <div className={currentView}>
@@ -36,6 +40,7 @@ const Sidebar = ({ getDate = () => {} }) => {
                     startDate={rangeStart}
                     endDate={rangeEnd}
                     selectsRange
+                    onChange={handleDateChange}
                     renderCustomHeader={({
                         date,
                         decreaseMonth,

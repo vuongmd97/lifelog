@@ -15,7 +15,7 @@ export default function CalendarContainer() {
     const _onPrev = () => refMainCalendar.current.onPrev();
     const _onToday = () => refMainCalendar.current.onToday();
     const _getDate = () => refMainCalendar.current?.getDate();
-    const _getTitle = () => refMainCalendar.current.getTitle();
+    const _getTitle = () => refMainCalendar.current?.getTitle();
 
     return (
         <div className="container calendar">
