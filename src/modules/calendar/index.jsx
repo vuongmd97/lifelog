@@ -16,6 +16,7 @@ export default function CalendarContainer() {
     const _onToday = () => refMainCalendar.current.onToday();
     const _getDate = () => refMainCalendar.current?.getDate();
     const _getTitle = () => refMainCalendar.current?.getTitle();
+    const _handleDateChange = (dates) => refMainCalendar.current.handleDateChange(dates);
 
     return (
         <div className="container calendar">
@@ -23,7 +24,7 @@ export default function CalendarContainer() {
                 <Header onNext={_onNext} onPrev={_onPrev} getDate={_getDate} getTitle={_getTitle} onToday={_onToday} />
                 <MainCalendar ref={refMainCalendar} />
             </div>
-            <Sidebar getDate={_getDate} />
+            <Sidebar getDate={_getDate} onDateChange={_handleDateChange} />
         </div>
     );
 }

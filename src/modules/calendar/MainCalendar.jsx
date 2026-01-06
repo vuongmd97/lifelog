@@ -110,12 +110,26 @@ const MainCalendar = forwardRef((_, ref) => {
         refCalendar.current.getApi().today();
     };
 
+    const _handleDateChange = (dates) => {
+        const api = refCalendar.current.getApi();
+        const view = api.view;
+
+        const start = view.currentStart;
+        const end = new Date(view.currentEnd.getTime() - 1);
+
+        const rangeDate = dates[0] >= start && dates[0] <= end;
+        if (rangeDate) return;
+
+        refCalendar.current.getApi().gotoDate(dates[0]);
+    };
+
     useImperativeHandle(ref, () => ({
         onNext: _onNext,
         onPrev: _onPrev,
         onToday: _onToday,
         getDate: _getDate,
-        getTitle: _getTitle
+        getTitle: _getTitle,
+        handleDateChange: _handleDateChange
     }));
 
     const eventSources = useMemo(() => {
