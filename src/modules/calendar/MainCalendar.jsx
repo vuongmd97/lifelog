@@ -1,8 +1,9 @@
-import { useRef, useEffect, useMemo, forwardRef, useReducer, useImperativeHandle } from 'react';
+import { Fragment, useRef, useEffect, useMemo, forwardRef, useReducer, useImperativeHandle } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { reducer } from '../../const/Reducer';
-import { format } from 'date-fns';
+import { format, addMinutes } from 'date-fns';
 import { vi, enUS } from 'date-fns/locale';
+import { formatTimeRange } from '../../utils/DateUtils';
 //
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -21,8 +22,10 @@ import {
     selectTimezone,
     selectShowHolidays,
     selectHolidayCountry,
-    setViewRange
+    setViewRange,
+    setCurrentView
 } from '../redux/calendar/calendarSlice';
+import ModalAddJobs from './modals/ModalAddJobs';
 
 const DATE_FNS_LOCALES = {
     vi: vi,
@@ -51,9 +54,15 @@ const MainCalendar = forwardRef((_, ref) => {
             slotMinWidth: 30,
             headerToolbar: false,
             googleCalendarApiKey: GOOGLE_CALENDAR_API_KEY
+        },
+        addJobs: {
+            active: false,
+            x: '',
+            y: '',
+            date: ''
         }
     });
-    const { events, settingsCalendar, loadEvents } = state;
+    const { events, settingsCalendar, loadEvents, addJobs } = state;
 
     const refWrapCalendar = useRef(null);
     const refCalendar = useRef(null);
@@ -188,22 +197,97 @@ const MainCalendar = forwardRef((_, ref) => {
         );
     };
 
-    return (
-        <div ref={refWrapCalendar} className="calendar-content">
-            <FullCalendar
-                ref={refCalendar}
-                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, googleCalendarPlugin]}
-                selectable
-                droppable
-                eventSources={eventSources}
-                {...settingsCalendar}
-                height="100%"
-                loading={(loadEvents) => dispatchState({ loadEvents })}
-                datesSet={handleDatesSet}
-            />
+    const onDateClick = (info) => {
+        if (info.view.type === 'dayGridMonth') {
+            dispatch(setCurrentView('timeGridDay'));
+            refCalendar.current.getApi().gotoDate(info.dateStr);
+            return;
+        } else {
+            handleOpenAddPopup(info);
+        }
+    };
 
-            {loadEvents && <SpinnerLoading hasColor />}
-        </div>
+    const handleOpenAddPopup = (info) => {
+        if (info.allDay) return;
+
+        const calendarDiv = info.jsEvent.target;
+        const { x, y, height, width } = calendarDiv.getBoundingClientRect();
+
+        const fakeDiv = document.createElement('div');
+        fakeDiv.setAttribute('add-jobs', 'true');
+        fakeDiv.style.cssText = `
+            position: fixed;
+            z-index: 9999999;
+            top: ${y}px;
+            left: ${x}px;
+            height: ${height}px;
+            width: ${width}px;
+            background-color: #8d4afc33;
+            border: 2px solid #8d4afc;
+            border-radius: 3px;
+        `;
+
+        getTitle(info, fakeDiv);
+
+        dispatchState({
+            addJobs: {
+                x: x + width / 2,
+                y,
+                active: true,
+                date: info.dateStr
+            }
+        });
+
+        document.body.appendChild(fakeDiv);
+    };
+
+    const handleCloseAddJobs = () => {
+        const fakeDiv = document.querySelector('[add-jobs="true"]');
+
+        if (fakeDiv) {
+            fakeDiv.remove();
+
+            dispatchState({
+                addJobs: {
+                    active: false,
+                    x: '',
+                    y: '',
+                    date: ''
+                }
+            });
+        }
+    };
+
+    const getTitle = (info, fakeDiv) => {
+        const startTime = new Date(info.dateStr);
+        const endTime = addMinutes(startTime, 15);
+
+        const timeRange = formatTimeRange(startTime, endTime);
+
+        fakeDiv.innerHTML = `<p style="white-space: nowrap; font-size: 9px; line-height: 10px; background: #8d4afc; color: #fff; padding: 0px 1px; margin: -1px; overflow: hidden;">${timeRange}</p>`;
+    };
+
+    return (
+        <Fragment>
+            <ModalAddJobs info={addJobs} onClose={handleCloseAddJobs} />
+
+            <div ref={refWrapCalendar} className="calendar-content">
+                <FullCalendar
+                    ref={refCalendar}
+                    plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, googleCalendarPlugin]}
+                    selectable
+                    droppable
+                    eventSources={eventSources}
+                    dateClick={onDateClick}
+                    {...settingsCalendar}
+                    height="100%"
+                    loading={(loadEvents) => dispatchState({ loadEvents })}
+                    datesSet={handleDatesSet}
+                />
+
+                {loadEvents && <SpinnerLoading hasColor />}
+            </div>
+        </Fragment>
     );
 });
 

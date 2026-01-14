@@ -156,6 +156,7 @@
         .react-datepicker__day--selected,
         .react-datepicker__day--keyboard-selected:not([aria-disabled='true']):hover {
             background-color: initial;
+            color: initial;
         }
 
         .react-datepicker__day:not([aria-disabled='true']):hover {
