@@ -231,9 +231,9 @@ const MainCalendar = forwardRef((_, ref) => {
 
         dispatchState({
             addJobs: {
+                active: true,
                 x: x + width / 2,
                 y,
-                active: true,
                 date: info.dateStr
             }
         });

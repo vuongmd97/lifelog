@@ -10,19 +10,18 @@ export default function ModalAddJobs({ info, onClose = () => {} }) {
     return (
         <Fragment>
             <div
-                data-date={date}
                 ref={refPopup}
                 className="calendar-popup"
                 style={{
                     position: 'fixed',
                     top: `${y}px`,
                     left: `${x}px`,
-                    transform: 'translate(-50%, -105%)',
+                    transform: 'translate(-50%, -110%)',
                     zIndex: 1001
                 }}
             >
                 <div className="items gap-5">
-                    <div className="svg-11">
+                    <div className="svg-10">
                         <IconEvent />
                     </div>
                     Custom Event

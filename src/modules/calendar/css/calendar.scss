@@ -243,8 +243,8 @@
 
         .items {
             @include flex-center;
-            padding: 5px;
-            height: 40px;
+            padding: 0 5px;
+            height: 36px;
             cursor: pointer;
 
             &:hover {
@@ -269,23 +269,6 @@
             .fc-event-custom .fc-title {
                 display: none;
             }
-        }
-    }
-
-    .fc-v-event:not(.fc-event-dragging):not(.fc-event-resizing) {
-        background-color: rgba(141, 74, 252, 0.2);
-        border: 2px solid #8c69dc;
-
-        .fc-event-main {
-            padding: 0;
-        }
-
-        .fc-time {
-            white-space: nowrap;
-            font-size: 9px;
-            line-height: 10px;
-            background: rgb(140, 105, 220);
-            overflow: hidden;
         }
     }
 
