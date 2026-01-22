@@ -1,12 +1,24 @@
 import { Fragment, useRef } from 'react';
 import IconEvent from '../../../assets/svg/IconEvent';
+import { EVENT_TYPES } from '../const';
 
-export default function ModalAddJobs({ info, onClose = () => {} }) {
+export default function ModalAddJobs({ data, onCreateEvent = () => {}, onClose = () => {} }) {
     const refPopup = useRef(null);
-    const { x, y, date, active } = info;
+    const { x, y, date, active } = data;
+
+    const _handleSelect = (type) => {
+        switch (type) {
+            case EVENT_TYPES.JOB:
+                break;
+            case EVENT_TYPES.EVENT:
+                onCreateEvent();
+                break;
+            default:
+                break;
+        }
+    };
 
     if (!active) return;
-
     return (
         <Fragment>
             <div
@@ -20,7 +32,7 @@ export default function ModalAddJobs({ info, onClose = () => {} }) {
                     zIndex: 1001
                 }}
             >
-                <div className="items gap-5">
+                <div className="items gap-5" onClick={() => _handleSelect(EVENT_TYPES.EVENT)}>
                     <div className="svg-10">
                         <IconEvent />
                     </div>

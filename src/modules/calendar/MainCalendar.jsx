@@ -23,9 +23,12 @@ import {
     selectShowHolidays,
     selectHolidayCountry,
     setViewRange,
-    setCurrentView
+    setCurrentView,
+    selectCustomEvents,
+    fetchCustomEvents
 } from '../redux/calendar/calendarSlice';
 import ModalAddJobs from './modals/ModalAddJobs';
+import ModalCustomEvents from './modals/ModalCustomEvents';
 
 const DATE_FNS_LOCALES = {
     vi: vi,
@@ -39,9 +42,9 @@ const MainCalendar = forwardRef((_, ref) => {
     const timezone = useSelector(selectTimezone);
     const showHolidays = useSelector(selectShowHolidays);
     const holidayCountry = useSelector(selectHolidayCountry);
+    const customEvents = useSelector(selectCustomEvents);
 
     const [state, dispatchState] = useReducer(reducer, {
-        events: [],
         loadEvents: false,
         settingsCalendar: {
             timeZone: timezone,
@@ -66,6 +69,7 @@ const MainCalendar = forwardRef((_, ref) => {
 
     const refWrapCalendar = useRef(null);
     const refCalendar = useRef(null);
+    const refAddEvent = useRef(null);
 
     const dateLocale = DATE_FNS_LOCALES[holidayCountry] || enUS;
 
@@ -144,13 +148,6 @@ const MainCalendar = forwardRef((_, ref) => {
     const eventSources = useMemo(() => {
         const sources = [];
 
-        if (events && events.length > 0) {
-            sources.push({
-                events: events,
-                color: '#3b82f6'
-            });
-        }
-
         // Holiday events from Google Calendar
         if (showHolidays && GOOGLE_CALENDAR_API_KEY && holidayCountry) {
             const holidayCalendar = HOLIDAY_CALENDARS[holidayCountry];
@@ -164,7 +161,29 @@ const MainCalendar = forwardRef((_, ref) => {
         }
 
         return sources;
-    }, [events, showHolidays, holidayCountry, currentView]);
+    }, [showHolidays, holidayCountry, currentView]);
+
+    useEffect(() => {
+        if (!refCalendar.current) return;
+        if (!customEvents || customEvents.length === 0) return;
+
+        const api = refCalendar.current.getApi();
+
+        // Clear old events
+        const existingEvents = api.getEvents();
+        existingEvents.forEach((event) => {
+            if (!event.source) {
+                event.remove();
+            }
+        });
+
+        // Add new events
+        api.batchRendering(() => {
+            customEvents.forEach((event) => {
+                api.addEvent(event);
+            });
+        });
+    }, [customEvents]);
 
     useEffect(() => {
         if (!refCalendar.current) return;
@@ -193,6 +212,14 @@ const MainCalendar = forwardRef((_, ref) => {
                 start: arg.startStr,
                 end: arg.endStr,
                 type: arg.view.type
+            })
+        );
+
+        // Fetch events for this range
+        dispatch(
+            fetchCustomEvents({
+                start: arg.startStr,
+                end: arg.endStr
             })
         );
     };
@@ -241,7 +268,7 @@ const MainCalendar = forwardRef((_, ref) => {
         document.body.appendChild(fakeDiv);
     };
 
-    const handleCloseAddJobs = () => {
+    const _handleCloseAddJobs = () => {
         const fakeDiv = document.querySelector('[add-jobs="true"]');
 
         if (fakeDiv) {
@@ -264,12 +291,25 @@ const MainCalendar = forwardRef((_, ref) => {
 
         const timeRange = formatTimeRange(startTime, endTime);
 
+        if (refAddEvent.current) {
+            refAddEvent.current._getTimeRange(startTime, endTime);
+        }
+
         fakeDiv.innerHTML = `<p style="white-space: nowrap; font-size: 9px; line-height: 10px; background: #8d4afc; color: #fff; padding: 0px 1px; margin: -1px; overflow: hidden;">${timeRange}</p>`;
+    };
+
+    const _handleCreateEvent = () => {
+        if (refAddEvent.current) {
+            refAddEvent.current._open();
+            _handleCloseAddJobs();
+        }
     };
 
     return (
         <Fragment>
-            <ModalAddJobs info={addJobs} onClose={handleCloseAddJobs} />
+            <ModalAddJobs data={addJobs} onClose={_handleCloseAddJobs} onCreateEvent={_handleCreateEvent} />
+
+            <ModalCustomEvents ref={refAddEvent} />
 
             <div ref={refWrapCalendar} className="calendar-content">
                 <FullCalendar

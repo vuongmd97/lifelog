@@ -20,3 +20,8 @@ export const CALENDAR_MODES = {
     DAY_GRID_WEEK: 'timeGridWeek',
     DAY_GRID_DAY: 'timeGridDay'
 };
+
+export const EVENT_TYPES = {
+    JOB: 'job',
+    EVENT: 'event'
+};

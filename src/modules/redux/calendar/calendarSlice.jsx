@@ -7,6 +7,22 @@ export const fetchPreferences = createAsyncThunk('calendar/fetchPreferences', as
     return data;
 });
 
+// export const fetchCustomEvents = createAsyncThunk('calendar/fetchCustomEvents', async (_, { getState }) => {
+//     const userId = getState().auth.userId;
+//     const data = await CalendarService.fetchCustomEvents(userId);
+
+//     return data;
+// });
+
+export const fetchCustomEvents = createAsyncThunk(
+    'calendar/fetchCustomEvents',
+    async ({ start, end }, { getState }) => {
+        const userId = getState().auth.userId;
+        const data = await CalendarService.fetchCustomEvents(userId, start, end);
+        return data;
+    }
+);
+
 export const changeViews = createAsyncThunk('calendar/changeViews', async (payload, { getState }) => {
     const userId = getState().auth.userId;
     const { view, date = null } = payload;
@@ -38,6 +54,18 @@ export const goToTodayAsync = createAsyncThunk('calendar/goToTodayAsync', async 
     return data;
 });
 
+export const createEvent = createAsyncThunk('calendar/createEvent', async (payload) => {
+    return await CalendarService.createEvent(payload);
+});
+
+export const updateEvent = createAsyncThunk('calendar/updateEvent', async (payload) => {
+    return await CalendarService.updateEvent(id, payload);
+});
+
+export const deleteEvent = createAsyncThunk('calendar/deleteEvent', async (payload) => {
+    return await CalendarService.deleteEvent(payload);
+});
+
 const initialState = {
     currentView: 'dayGridMonth',
     dateSelected: new Date().toISOString(),
@@ -51,7 +79,9 @@ const initialState = {
         start: null,
         end: null,
         type: null
-    }
+    },
+    customEvents: [],
+    loadEvents: false
 };
 
 const calendarSlice = createSlice({
@@ -117,6 +147,22 @@ const calendarSlice = createSlice({
             })
             .addCase(changeViews.rejected, (state, action) => {
                 state.error = action.error.message;
+            })
+
+            .addCase(createEvent.fulfilled, (state, action) => {
+                state.customEvents.push(action.payload);
+            })
+
+            .addCase(fetchCustomEvents.pending, (state) => {
+                state.loadEvents = true;
+            })
+            .addCase(fetchCustomEvents.fulfilled, (state, action) => {
+                state.customEvents = action.payload;
+                state.loadEvents = false;
+            })
+            .addCase(fetchCustomEvents.rejected, (state, action) => {
+                state.error = action.error.message;
+                state.loadEvents = false;
             });
     }
 });
@@ -142,3 +188,4 @@ export const selectShowHolidays = (state) => state.calendar.showHolidays;
 export const selectHolidayCountry = (state) => state.calendar.holidayCountry;
 export const selectViewRange = (state) => state.calendar.viewRange;
 export const selectCalendarState = (state) => state.calendar;
+export const selectCustomEvents = (state) => state.calendar.customEvents;

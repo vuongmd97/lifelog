@@ -21,5 +21,46 @@ export const CalendarService = {
 
         if (error) throw error;
         return data?.[0] || null;
+    },
+
+    // Custom Events
+    // async fetchCustomEvents(userId) {
+    //     const { data, error } = await supabase.from('events').select().eq('user_id', userId);
+
+    //     if (error) throw error;
+    //     return data || [];
+    // },
+
+    async fetchCustomEvents(userId, start, end) {
+        const { data, error } = await supabase
+            .from('events')
+            .select()
+            .eq('user_id', userId)
+            .gte('start', start)
+            .lte('start', end);
+
+        if (error) throw error;
+        return data || [];
+    },
+
+    async createEvent(payload) {
+        const { data, error } = await supabase.from('events').insert(payload).select().single();
+
+        if (error) throw error;
+        return data;
+    },
+
+    async updateEvent(id, payload) {
+        const { data, error } = await supabase.from('events').update(payload).eq('id', id).single();
+
+        if (error) throw error;
+        return data;
+    },
+
+    async deleteEvent(id) {
+        const { error } = await supabase.from('events').delete().eq('id', id);
+
+        if (error) throw error;
+        return true;
     }
 };

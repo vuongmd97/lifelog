@@ -511,3 +511,75 @@
         }
     }
 }
+
+// modal customer events
+.custom-event {
+    .row {
+        border-bottom: 1px solid $border-gray;
+        @include flex-top;
+        gap: 4px;
+        padding: 12px 16px;
+        position: relative;
+
+        &__icon {
+            width: 26px;
+            height: 32px;
+            @include flex-center;
+        }
+
+        &__details {
+            flex: 1;
+        }
+
+        .dots {
+            @include size(16px);
+            border-radius: 50%;
+        }
+
+        .preview-label {
+            margin-top: 8px;
+        }
+
+        .range-time {
+            line-height: 32px;
+        }
+    }
+
+    .color-picker {
+        position: absolute;
+        left: 46px;
+        top: 48px;
+        z-index: 2;
+    }
+
+    .choosetime {
+        @include flex-center;
+
+        .from-time {
+            &:first-child .btn-default {
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+
+            &:last-child .btn-default {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+
+            &:not(:first-child) .btn-default:not(:hover) {
+                border-left-color: transparent;
+            }
+        }
+
+        .dropdown {
+            &__menu {
+                max-height: 200px;
+                overflow-y: auto;
+            }
+
+            &.active .btn-default {
+                box-shadow: none;
+            }
+        }
+    }
+}
