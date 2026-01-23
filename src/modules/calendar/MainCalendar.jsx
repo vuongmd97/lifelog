@@ -25,7 +25,8 @@ import {
     setViewRange,
     setCurrentView,
     selectCustomEvents,
-    fetchCustomEvents
+    fetchCustomEvents,
+    selectViewRange
 } from '../redux/calendar/calendarSlice';
 import ModalAddJobs from './modals/ModalAddJobs';
 import ModalCustomEvents from './modals/ModalCustomEvents';
@@ -43,6 +44,7 @@ const MainCalendar = forwardRef((_, ref) => {
     const showHolidays = useSelector(selectShowHolidays);
     const holidayCountry = useSelector(selectHolidayCountry);
     const customEvents = useSelector(selectCustomEvents);
+    const viewRange = useSelector(selectViewRange);
 
     const [state, dispatchState] = useReducer(reducer, {
         loadEvents: false,
@@ -65,11 +67,12 @@ const MainCalendar = forwardRef((_, ref) => {
             date: ''
         }
     });
-    const { events, settingsCalendar, loadEvents, addJobs } = state;
+    const { settingsCalendar, loadEvents, addJobs } = state;
 
     const refWrapCalendar = useRef(null);
     const refCalendar = useRef(null);
     const refAddEvent = useRef(null);
+    const refViewRange = useRef('');
 
     const dateLocale = DATE_FNS_LOCALES[holidayCountry] || enUS;
 
@@ -206,20 +209,28 @@ const MainCalendar = forwardRef((_, ref) => {
         return () => ro.disconnect();
     }, []);
 
+    useEffect(() => {
+        const rangeChanged =
+            !refViewRange || refViewRange.current.start != viewRange.start || refViewRange.current.end != viewRange.end;
+
+        if (rangeChanged) {
+            dispatch(
+                fetchCustomEvents({
+                    start: viewRange.start,
+                    end: viewRange.end
+                })
+            );
+
+            refViewRange.current = viewRange;
+        }
+    }, [viewRange]);
+
     const handleDatesSet = (arg) => {
         dispatch(
             setViewRange({
                 start: arg.startStr,
                 end: arg.endStr,
                 type: arg.view.type
-            })
-        );
-
-        // Fetch events for this range
-        dispatch(
-            fetchCustomEvents({
-                start: arg.startStr,
-                end: arg.endStr
             })
         );
     };
