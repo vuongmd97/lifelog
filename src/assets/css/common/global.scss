@@ -107,6 +107,10 @@
     &.large {
         min-height: 180px;
     }
+
+    &.--transparent {
+        border: none;
+    }
 }
 
 .alert {
@@ -236,8 +240,8 @@
         z-index: 2;
     }
 
-    .sketch-picker {
-        padding-top: 36px !important;
+    .w-color-sketch {
+        padding-top: 26px;
     }
 }
 

@@ -195,33 +195,6 @@
                 color: $text-white;
             }
         }
-
-        // .custom-event {
-        //     position: absolute;
-        //     @include size(100%);
-        //     background-color: $bg-default;
-        //     top: 0;
-        //     left: 0;
-        //     z-index: 1;
-
-        //     &__header {
-        //         @include flex-center;
-        //         gap: 4px;
-        //         padding-bottom: 12px;
-        //         border-bottom: 1px solid $border-gray;
-
-        //         .event-label {
-        //             font-size: 16px;
-        //             font-weight: bold;
-        //             flex: 1;
-        //         }
-        //     }
-
-        //     .row {
-        //         border-bottom: 0 !important;
-        //         padding: 5px !important;
-        //     }
-        // }
     }
 
     &-toolbar .title {
@@ -270,14 +243,5 @@
                 display: none;
             }
         }
-    }
-
-    .field-control {
-        overflow: hidden;
-        margin-top: 1px;
-        min-height: 32px;
-        line-height: 18px;
-        padding: 8px 6px;
-        resize: none;
     }
 }

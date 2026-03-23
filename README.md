@@ -30,9 +30,13 @@ npm install @fullcalendar/react @fullcalendar/daygrid @fullcalendar/timegrid @fu
 
 npm install @fullcalendar/google-calendar
 
-<!-- Cài đặt react color, date picker và textarea autosize -->
+<!-- Cài đặt date picker và textarea autosize -->
 
-npm install react-color react-datepicker react-textarea-autosize
+npm install react-datepicker react-textarea-autosize
+
+<!-- Cài đặt react-color -->
+
+npm install @uiw/react-color
 
 <!-- date format
 
