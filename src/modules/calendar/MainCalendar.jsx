@@ -164,7 +164,7 @@ const MainCalendar = forwardRef(({ handlePreviewEvent }, ref) => {
         }
 
         return sources;
-    }, [showHolidays, holidayCountry, currentView]);
+    }, [showHolidays, holidayCountry]);
 
     useEffect(() => {
         if (!refCalendar.current) return;
@@ -220,7 +220,7 @@ const MainCalendar = forwardRef(({ handlePreviewEvent }, ref) => {
 
             refViewRange.current = viewRange;
         }
-    }, [viewRange]);
+    }, [dispatch, viewRange]);
 
     const handleDatesSet = (arg) => {
         dispatch(
