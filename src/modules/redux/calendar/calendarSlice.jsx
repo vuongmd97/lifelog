@@ -58,12 +58,13 @@ export const createEvent = createAsyncThunk('calendar/createEvent', async (paylo
     return await CalendarService.createEvent(payload);
 });
 
-export const updateEvent = createAsyncThunk('calendar/updateEvent', async (payload) => {
+export const updateEvent = createAsyncThunk('calendar/updateEvent', async (id, payload) => {
     return await CalendarService.updateEvent(id, payload);
 });
 
-export const deleteEvent = createAsyncThunk('calendar/deleteEvent', async (payload) => {
-    return await CalendarService.deleteEvent(payload);
+export const deleteEvent = createAsyncThunk('calendar/deleteEvent', async (id) => {
+    await CalendarService.deleteEvent(id);
+    return id;
 });
 
 const initialState = {
@@ -163,6 +164,14 @@ const calendarSlice = createSlice({
             .addCase(fetchCustomEvents.rejected, (state, action) => {
                 state.error = action.error.message;
                 state.loadEvents = false;
+            })
+
+            .addCase(deleteEvent.fulfilled, (state, action) => {
+                const id = action.payload;
+                state.customEvents = state.customEvents.filter((e) => e.id !== id);
+            })
+            .addCase(deleteEvent.rejected, (state, action) => {
+                state.error = action.error.message;
             });
     }
 });

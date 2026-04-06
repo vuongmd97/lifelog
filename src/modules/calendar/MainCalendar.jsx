@@ -36,7 +36,7 @@ const DATE_FNS_LOCALES = {
     en: enUS
 };
 
-const MainCalendar = forwardRef((_, ref) => {
+const MainCalendar = forwardRef(({ handlePreviewEvent }, ref) => {
     const dispatch = useDispatch();
     const currentView = useSelector(selectCurrentView);
     const dateSelected = useSelector(selectDateSelected);
@@ -168,23 +168,20 @@ const MainCalendar = forwardRef((_, ref) => {
 
     useEffect(() => {
         if (!refCalendar.current) return;
-        if (!customEvents || customEvents.length === 0) return;
 
         const api = refCalendar.current.getApi();
 
         // Clear old events
         const existingEvents = api.getEvents();
         existingEvents.forEach((event) => {
-            if (!event.source) {
-                event.remove();
-            }
+            if (!event.source) event.remove();
         });
+
+        if (!customEvents?.length) return;
 
         // Add new events
         api.batchRendering(() => {
-            customEvents.forEach((event) => {
-                api.addEvent(event);
-            });
+            customEvents.forEach((event) => api.addEvent(event));
         });
     }, [customEvents]);
 
@@ -316,6 +313,21 @@ const MainCalendar = forwardRef((_, ref) => {
         }
     };
 
+    const onEventClick = (info) => {
+        const ev = info.event;
+        if (ev.source) return;
+
+        handlePreviewEvent({
+            id: ev.id,
+            title: ev.title,
+            start: ev.start,
+            end: ev.end,
+            location: ev.extendedProps?.location,
+            description: ev.extendedProps?.description,
+            color: ev.backgroundColor || ev.color
+        });
+    };
+
     return (
         <Fragment>
             <ModalAddJobs data={addJobs} onClose={_handleCloseAddJobs} onCreateEvent={_handleCreateEvent} />
@@ -330,6 +342,7 @@ const MainCalendar = forwardRef((_, ref) => {
                     droppable
                     eventSources={eventSources}
                     dateClick={onDateClick}
+                    eventClick={onEventClick}
                     {...settingsCalendar}
                     height="100%"
                     loading={(loadEvents) => dispatchState({ loadEvents })}

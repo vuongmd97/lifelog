@@ -4,7 +4,7 @@ import { EVENT_TYPES } from '../const';
 
 export default function ModalAddJobs({ data, onCreateEvent = () => {}, onClose = () => {} }) {
     const refPopup = useRef(null);
-    const { x, y, date, active } = data;
+    const { x, y, active } = data;
 
     const _handleSelect = (type) => {
         switch (type) {

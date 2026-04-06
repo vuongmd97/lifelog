@@ -16,7 +16,6 @@ import IconDescription from '../../../assets/svg/IconDescription';
 const ModalCustomEvents = ({ defaultColor = '#c827dd' }, ref) => {
     const [state, dispatchState] = useReducer(reducer, {
         isOpen: false,
-        isLoading: false,
         data: {
             start: '',
             end: '',
@@ -29,7 +28,7 @@ const ModalCustomEvents = ({ defaultColor = '#c827dd' }, ref) => {
 
     const refTitle = useRef(null);
 
-    const { isOpen, isLoading, data } = state;
+    const { isOpen, data } = state;
 
     const [refColorPicker, isVisible, setIsVisible] = useClickOutside(false);
 

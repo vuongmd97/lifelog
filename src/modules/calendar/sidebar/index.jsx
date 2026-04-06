@@ -6,8 +6,9 @@ import IconArrow from '../../../assets/svg/IconArrow';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import { selectCurrentView, selectViewRange } from '../../redux/calendar/calendarSlice';
+import { CustomEventPreview } from '../modals/ModalCustomEventsPreview';
 
-const Sidebar = ({ getDate = () => {}, onDateChange = () => {} }) => {
+const Sidebar = ({ getDate = () => {}, onDateChange = () => {}, previewEvent, handleCloseEvent }) => {
     const currentView = useSelector(selectCurrentView);
     const { start, end, type } = useSelector(selectViewRange);
 
@@ -68,6 +69,7 @@ const Sidebar = ({ getDate = () => {}, onDateChange = () => {} }) => {
                     )}
                 />
             </div>
+            <CustomEventPreview previewEvent={previewEvent} onClose={handleCloseEvent} />
         </div>
     );
 };
