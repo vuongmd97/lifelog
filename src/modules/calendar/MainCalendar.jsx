@@ -145,7 +145,8 @@ const MainCalendar = forwardRef(({ handlePreviewEvent }, ref) => {
         onToday: _onToday,
         getDate: _getDate,
         getTitle: _getTitle,
-        handleDateChange: _handleDateChange
+        handleDateChange: _handleDateChange,
+        handleOpenEditEvent: _handleOpenEditEvent
     }));
 
     const eventSources = useMemo(() => {
@@ -326,6 +327,12 @@ const MainCalendar = forwardRef(({ handlePreviewEvent }, ref) => {
             description: ev.extendedProps?.description,
             color: ev.backgroundColor || ev.color
         });
+    };
+
+    const _handleOpenEditEvent = (event) => {
+        if (refAddEvent.current) {
+            refAddEvent.current._openEdit(event);
+        }
     };
 
     return (

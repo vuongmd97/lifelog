@@ -7,13 +7,6 @@ export const fetchPreferences = createAsyncThunk('calendar/fetchPreferences', as
     return data;
 });
 
-// export const fetchCustomEvents = createAsyncThunk('calendar/fetchCustomEvents', async (_, { getState }) => {
-//     const userId = getState().auth.userId;
-//     const data = await CalendarService.fetchCustomEvents(userId);
-
-//     return data;
-// });
-
 export const fetchCustomEvents = createAsyncThunk(
     'calendar/fetchCustomEvents',
     async ({ start, end }, { getState }) => {
@@ -58,8 +51,9 @@ export const createEvent = createAsyncThunk('calendar/createEvent', async (paylo
     return await CalendarService.createEvent(payload);
 });
 
-export const updateEvent = createAsyncThunk('calendar/updateEvent', async (id, payload) => {
-    return await CalendarService.updateEvent(id, payload);
+export const updateEvent = createAsyncThunk('calendar/updateEvent', async (payload) => {
+    const { id, ...rest } = payload;
+    return await CalendarService.updateEvent(id, rest);
 });
 
 export const deleteEvent = createAsyncThunk('calendar/deleteEvent', async (id) => {
@@ -171,6 +165,14 @@ const calendarSlice = createSlice({
                 state.customEvents = state.customEvents.filter((e) => e.id !== id);
             })
             .addCase(deleteEvent.rejected, (state, action) => {
+                state.error = action.error.message;
+            })
+
+            .addCase(updateEvent.fulfilled, (state, action) => {
+                const { id, ...rest } = action.payload;
+                state.customEvents = state.customEvents.map((e) => (e.id === id ? { ...e, ...rest } : e));
+            })
+            .addCase(updateEvent.rejected, (state, action) => {
                 state.error = action.error.message;
             });
     }

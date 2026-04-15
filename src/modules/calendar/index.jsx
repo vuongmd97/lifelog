@@ -33,6 +33,9 @@ export default function CalendarContainer() {
     const _getDate = () => refMainCalendar.current?.getDate();
     const _getTitle = () => refMainCalendar.current?.getTitle();
     const _handleDateChange = (dates) => refMainCalendar.current.handleDateChange(dates);
+    const _handleOpenEditEvent = (event) => refMainCalendar.current.handleOpenEditEvent(event);
+
+    console.log(previewEvent);
 
     return (
         <div className="container calendar">
@@ -49,6 +52,7 @@ export default function CalendarContainer() {
                 onDateChange={_handleDateChange}
                 previewEvent={previewEvent}
                 handleCloseEvent={_handleCloseEvent}
+                handleOpenEditEvent={_handleOpenEditEvent}
             />
         </div>
     );

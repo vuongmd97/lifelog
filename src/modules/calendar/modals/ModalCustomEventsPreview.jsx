@@ -8,15 +8,29 @@ import { formatTimeRange } from '../../../utils/DateUtils';
 import { useDispatch } from 'react-redux';
 import { deleteEvent } from '../../redux/calendar/calendarSlice';
 
-export const CustomEventPreview = ({ previewEvent, onClose }) => {
+export const CustomEventPreview = ({ previewEvent, onClose, handleOpenEditEvent }) => {
     const dispatch = useDispatch();
 
     if (!previewEvent) return;
     const { title, color, start, end, description, location, id } = previewEvent;
 
+    console.log({
+        title,
+        color,
+        start,
+        end,
+        description,
+        location,
+        id
+    });
+
     const _handleDeleteEvent = () => {
         dispatch(deleteEvent(id));
         onClose();
+    };
+
+    const _handleOpenEditEvent = () => {
+        handleOpenEditEvent(previewEvent);
     };
 
     return (
@@ -24,7 +38,7 @@ export const CustomEventPreview = ({ previewEvent, onClose }) => {
             <div className="custom-event__header">
                 <p className="event-label">Custom Event</p>
 
-                <div className="btn-default --icon-lg svg-9">
+                <div className="btn-default --icon-lg svg-9" onClick={_handleOpenEditEvent}>
                     <IconPen />
                 </div>
                 <div className="btn-default --icon-lg svg-9" onClick={_handleDeleteEvent}>
@@ -59,7 +73,9 @@ export const CustomEventPreview = ({ previewEvent, onClose }) => {
                         <IconDescription />
                     </div>
                     <div className="row__details">
-                        <p className="preview-label">{description}</p>
+                        <p className="preview-label" style={{ whiteSpace: 'pre-wrap' }}>
+                            {description}
+                        </p>
                     </div>
                 </div>
             )}
@@ -70,7 +86,9 @@ export const CustomEventPreview = ({ previewEvent, onClose }) => {
                         <IconLocation />
                     </div>
                     <div className="row__details">
-                        <p className="preview-label">{location}</p>
+                        <p className="preview-label" style={{ whiteSpace: 'pre-wrap' }}>
+                            {location}
+                        </p>
                     </div>
                 </div>
             )}

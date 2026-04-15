@@ -23,14 +23,6 @@ export const CalendarService = {
         return data?.[0] || null;
     },
 
-    // Custom Events
-    // async fetchCustomEvents(userId) {
-    //     const { data, error } = await supabase.from('events').select().eq('user_id', userId);
-
-    //     if (error) throw error;
-    //     return data || [];
-    // },
-
     async fetchCustomEvents(userId, start, end) {
         const { data, error } = await supabase
             .from('events')
@@ -51,7 +43,7 @@ export const CalendarService = {
     },
 
     async updateEvent(id, payload) {
-        const { data, error } = await supabase.from('events').update(payload).eq('id', id).single();
+        const { data, error } = await supabase.from('events').update(payload).eq('id', id).select().single();
 
         if (error) throw error;
         return data;

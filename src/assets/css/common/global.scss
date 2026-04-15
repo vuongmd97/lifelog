@@ -1,5 +1,5 @@
-@use './variables' as *;
-@use './mixins' as *;
+@use "./variables" as *;
+@use "./mixins" as *;
 
 .scrolls {
     overflow-y: auto;
@@ -261,7 +261,7 @@
         position: relative;
 
         &::before {
-            content: '';
+            content: "";
             display: inline-block;
             background-color: $text-white;
             border: 1px solid $border-gray;
@@ -277,7 +277,7 @@
         }
     }
 
-    input[type='checkbox'] {
+    input[type="checkbox"] {
         @include size(0);
         visibility: hidden;
 
@@ -288,7 +288,7 @@
                     border-color: $purple-default;
                 }
                 &::after {
-                    content: '';
+                    content: "";
                     position: absolute;
                     width: 9px;
                     height: 6px;

@@ -3,7 +3,7 @@ import Sketch from '@uiw/react-color-sketch';
 import TextareaAutosize from 'react-textarea-autosize';
 import { reducer } from '../../../const/Reducer';
 import { useDispatch } from 'react-redux';
-import { createEvent } from '../../redux/calendar/calendarSlice';
+import { createEvent, updateEvent } from '../../redux/calendar/calendarSlice';
 import ReactModal from 'react-modal';
 
 import SelectText from './components/SelectText';
@@ -13,22 +13,26 @@ import useClickOutside from '../../../hook/useClickOutside';
 import IconLocation from '../../../assets/svg/IconLocation';
 import IconDescription from '../../../assets/svg/IconDescription';
 
-const ModalCustomEvents = ({ defaultColor = '#c827dd' }, ref) => {
+const INITIAL_DATA = {
+    title: '',
+    start: '',
+    end: '',
+    color: '#c827dd',
+    location: '',
+    description: ''
+};
+
+const ModalCustomEvents = (_, ref) => {
     const [state, dispatchState] = useReducer(reducer, {
         isOpen: false,
-        data: {
-            start: '',
-            end: '',
-            color: defaultColor,
-            location: '',
-            description: ''
-        }
+        data: INITIAL_DATA,
+        editingId: null
     });
     const dispatch = useDispatch();
 
     const refTitle = useRef(null);
 
-    const { isOpen, data } = state;
+    const { isOpen, data, editingId } = state;
 
     const [refColorPicker, isVisible, setIsVisible] = useClickOutside(false);
 
@@ -37,14 +41,32 @@ const ModalCustomEvents = ({ defaultColor = '#c827dd' }, ref) => {
         setIsVisible(!isVisible);
     };
 
-    useImperativeHandle(ref, () => ({ _open, _getTimeRange }));
+    useImperativeHandle(ref, () => ({ _open, _getTimeRange, _openEdit }));
 
     const _open = () => {
-        dispatchState({ isOpen: true });
+        dispatchState({
+            isOpen: true,
+            editingId: null
+        });
+    };
+
+    const _openEdit = (event) => {
+        dispatchState({
+            isOpen: true,
+            data: {
+                ...event,
+                color: event.backgroundColor || event.color
+            },
+            editingId: event.id
+        });
     };
 
     const _close = () => {
-        dispatchState({ isOpen: false });
+        dispatchState({
+            isOpen: false,
+            data: INITIAL_DATA,
+            editingId: null
+        });
     };
 
     const _getTimeRange = (start, end) => {
@@ -67,8 +89,19 @@ const ModalCustomEvents = ({ defaultColor = '#c827dd' }, ref) => {
 
         if (!title) return;
 
-        dispatch(createEvent({ title, start, end, color, location, description }));
+        const payload = { title, start, end, color, location, description };
+
+        if (editingId) {
+            dispatch(updateEvent({ id: editingId, ...payload }));
+        } else {
+            dispatch(createEvent(payload));
+        }
+
         _close();
+    };
+
+    const getTitle = () => {
+        return editingId ? 'Edit Custom Event' : 'Custom Event';
     };
 
     if (!isOpen) return;
@@ -78,7 +111,7 @@ const ModalCustomEvents = ({ defaultColor = '#c827dd' }, ref) => {
             <div className="modal__overlay" onClick={_close}></div>
             <div className="modal__container">
                 <div className="modal-header">
-                    <p className="header-title">Custom Events</p>
+                    <p className="header-title">{getTitle()}</p>
                     <div className="btn-default --icon-lg --transparent svg-11" onClick={_close}>
                         <IconClose />
                     </div>
@@ -86,7 +119,13 @@ const ModalCustomEvents = ({ defaultColor = '#c827dd' }, ref) => {
 
                 <div className="modal-body">
                     <div className="custom-event">
-                        <SelectText ref={refTitle} placeholder="Title" name="title" autoFocus />
+                        <SelectText
+                            ref={refTitle}
+                            defaultValue={data?.title || ''}
+                            placeholder="Title"
+                            name="title"
+                            autoFocus
+                        />
 
                         <div className="row">
                             <div className="row__icon svg-9">
