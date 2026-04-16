@@ -5,32 +5,33 @@ import IconDescription from '../../../assets/svg/IconDescription';
 import IconLocation from '../../../assets/svg/IconLocation';
 import IconCalendar from '../../../assets/svg/IconCalendar';
 import { formatTimeRange } from '../../../utils/DateUtils';
-import { useDispatch } from 'react-redux';
-import { deleteEvent } from '../../redux/calendar/calendarSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+    clearPreviewEvent,
+    closeCustomEventModal,
+    deleteEvent,
+    selectPreviewEvent
+} from '../../redux/calendar/calendarSlice';
 
-export const CustomEventPreview = ({ previewEvent, onClose, handleOpenEditEvent }) => {
+export const CustomEventPreview = ({ onOpenEdit = () => {} }) => {
+    const previewEvent = useSelector(selectPreviewEvent);
     const dispatch = useDispatch();
 
     if (!previewEvent) return;
-    const { title, color, start, end, description, location, id } = previewEvent;
 
-    console.log({
-        title,
-        color,
-        start,
-        end,
-        description,
-        location,
-        id
-    });
+    const { title, color, start, end, description, location, id } = previewEvent;
 
     const _handleDeleteEvent = () => {
         dispatch(deleteEvent(id));
-        onClose();
     };
 
     const _handleOpenEditEvent = () => {
-        handleOpenEditEvent(previewEvent);
+        _handleOpenEditEvent(previewEvent);
+    };
+
+    const _handleClosePreview = () => {
+        dispatch(clearPreviewEvent());
+        dispatch(closeCustomEventModal());
     };
 
     return (
@@ -38,13 +39,13 @@ export const CustomEventPreview = ({ previewEvent, onClose, handleOpenEditEvent 
             <div className="custom-event__header">
                 <p className="event-label">Custom Event</p>
 
-                <div className="btn-default --icon-lg svg-9" onClick={_handleOpenEditEvent}>
+                <div className="btn-default --icon-lg svg-9" onClick={onOpenEdit}>
                     <IconPen />
                 </div>
                 <div className="btn-default --icon-lg svg-9" onClick={_handleDeleteEvent}>
                     <IconTrash />
                 </div>
-                <div className="btn-default --icon-lg svg-9" onClick={onClose}>
+                <div className="btn-default --icon-lg svg-9" onClick={_handleClosePreview}>
                     <IconClose />
                 </div>
             </div>

@@ -8,13 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { selectCurrentView, selectViewRange } from '../../redux/calendar/calendarSlice';
 import { CustomEventPreview } from '../modals/ModalCustomEventsPreview';
 
-const Sidebar = ({
-    getDate = () => {},
-    onDateChange = () => {},
-    previewEvent,
-    handleCloseEvent,
-    handleOpenEditEvent
-}) => {
+const Sidebar = ({ getDate = () => {}, onDateChange = () => {}, onOpenEditFromPreview = () => {} }) => {
     const currentView = useSelector(selectCurrentView);
     const { start, end, type } = useSelector(selectViewRange);
 
@@ -75,11 +69,7 @@ const Sidebar = ({
                     )}
                 />
             </div>
-            <CustomEventPreview
-                previewEvent={previewEvent}
-                onClose={handleCloseEvent}
-                handleOpenEditEvent={handleOpenEditEvent}
-            />
+            <CustomEventPreview onOpenEdit={onOpenEditFromPreview} />
         </div>
     );
 };

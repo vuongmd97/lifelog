@@ -26,7 +26,9 @@ import {
     setCurrentView,
     selectCustomEvents,
     fetchCustomEvents,
-    selectViewRange
+    selectViewRange,
+    setPreviewEventId,
+    selectPreviewEvent
 } from '../redux/calendar/calendarSlice';
 import ModalAddJobs from './modals/ModalAddJobs';
 import ModalCustomEvents from './modals/ModalCustomEvents';
@@ -36,7 +38,7 @@ const DATE_FNS_LOCALES = {
     en: enUS
 };
 
-const MainCalendar = forwardRef(({ handlePreviewEvent }, ref) => {
+const MainCalendar = forwardRef((_, ref) => {
     const dispatch = useDispatch();
     const currentView = useSelector(selectCurrentView);
     const dateSelected = useSelector(selectDateSelected);
@@ -75,6 +77,8 @@ const MainCalendar = forwardRef(({ handlePreviewEvent }, ref) => {
     const refViewRange = useRef('');
 
     const dateLocale = DATE_FNS_LOCALES[holidayCountry] || enUS;
+
+    const previewEvent = useSelector(selectPreviewEvent);
 
     const _getDate = () => {
         return refCalendar.current.getApi().getDate();
@@ -318,21 +322,12 @@ const MainCalendar = forwardRef(({ handlePreviewEvent }, ref) => {
         const ev = info.event;
         if (ev.source) return;
 
-        handlePreviewEvent({
-            id: ev.id,
-            title: ev.title,
-            start: ev.start,
-            end: ev.end,
-            location: ev.extendedProps?.location,
-            description: ev.extendedProps?.description,
-            color: ev.backgroundColor || ev.color
-        });
+        dispatch(setPreviewEventId(ev.id));
     };
 
-    const _handleOpenEditEvent = (event) => {
-        if (refAddEvent.current) {
-            refAddEvent.current._openEdit(event);
-        }
+    const _handleOpenEditEvent = () => {
+        if (!previewEvent || !refAddEvent.current) return;
+        refAddEvent.current._openEdit(previewEvent);
     };
 
     return (

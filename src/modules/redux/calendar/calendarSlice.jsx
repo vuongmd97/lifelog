@@ -61,6 +61,16 @@ export const deleteEvent = createAsyncThunk('calendar/deleteEvent', async (id) =
     return id;
 });
 
+const INITIAL_CUSTOM_EVENT_MODAL = {
+    isOpen: false,
+    mode: 'create',
+    eventId: null,
+    draftRange: {
+        start: null,
+        end: null
+    }
+};
+
 const initialState = {
     currentView: 'dayGridMonth',
     dateSelected: new Date().toISOString(),
@@ -75,7 +85,10 @@ const initialState = {
         end: null,
         type: null
     },
+
     customEvents: [],
+    customEventModal: { ...INITIAL_CUSTOM_EVENT_MODAL },
+    previewEventId: null,
     loadEvents: false
 };
 
@@ -103,6 +116,30 @@ const calendarSlice = createSlice({
         },
         setViewRange: (state, action) => {
             state.viewRange = action.payload;
+        },
+
+        // Custom Event Modal
+        setPreviewEventId: (state, action) => {
+            state.previewEventId = action.payload;
+        },
+        clearPreviewEvent: (state) => {
+            state.previewEventId = null;
+        },
+        openCustomEventModal: (state, action) => {
+            const { mode = 'create', eventId = null, draftRange = { start: null, end: null } } = action.payload || {};
+
+            state.customEventModal = {
+                isOpen: true,
+                mode,
+                eventId,
+                draftRange: {
+                    start: draftRange.start ?? null,
+                    end: draftRange.end ?? null
+                }
+            };
+        },
+        closeCustomEventModal: (state) => {
+            state.customEventModal = { ...INITIAL_CUSTOM_EVENT_MODAL };
         }
     },
     extraReducers: (builder) => {
@@ -117,7 +154,6 @@ const calendarSlice = createSlice({
             })
             .addCase(fetchPreferences.rejected, (state, action) => {
                 state.error = action.error.message;
-                state.dateSelected = action.payload.current_date || state.dateSelected;
                 state.loadPreferences = false;
             })
 
@@ -185,7 +221,11 @@ export const {
     setTimezone,
     setShowHolidays,
     setHolidayCountry,
-    setViewRange
+    setViewRange,
+    setPreviewEventId,
+    clearPreviewEvent,
+    openCustomEventModal,
+    closeCustomEventModal
 } = calendarSlice.actions;
 
 export default calendarSlice.reducer;
@@ -200,3 +240,9 @@ export const selectHolidayCountry = (state) => state.calendar.holidayCountry;
 export const selectViewRange = (state) => state.calendar.viewRange;
 export const selectCalendarState = (state) => state.calendar;
 export const selectCustomEvents = (state) => state.calendar.customEvents;
+
+export const selectPreviewEvent = (state) => {
+    const id = state.calendar.previewEventId;
+    if (id == null) return null;
+    return state.calendar.customEvents.find((e) => String(e.id) === String(id)) ?? null;
+};
