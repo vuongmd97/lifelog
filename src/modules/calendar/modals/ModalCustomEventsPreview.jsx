@@ -25,10 +25,6 @@ export const CustomEventPreview = ({ onOpenEdit = () => {} }) => {
         dispatch(deleteEvent(id));
     };
 
-    const _handleOpenEditEvent = () => {
-        _handleOpenEditEvent(previewEvent);
-    };
-
     const _handleClosePreview = () => {
         dispatch(clearPreviewEvent());
         dispatch(closeCustomEventModal());

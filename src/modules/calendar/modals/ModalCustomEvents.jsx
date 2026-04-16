@@ -12,6 +12,8 @@ import IconClose from '../../../assets/svg/IconClose';
 import useClickOutside from '../../../hook/useClickOutside';
 import IconLocation from '../../../assets/svg/IconLocation';
 import IconDescription from '../../../assets/svg/IconDescription';
+import IconCalendar from '../../../assets/svg/IconCalendar';
+import { TimeLength } from '../components/TimeLength';
 
 const INITIAL_DATA = {
     title: '',
@@ -31,6 +33,7 @@ const ModalCustomEvents = (_, ref) => {
     const dispatch = useDispatch();
 
     const refTitle = useRef(null);
+    const refTimeLength = useRef(null);
 
     const { isOpen, data, editingId } = state;
 
@@ -126,6 +129,16 @@ const ModalCustomEvents = (_, ref) => {
                             name="title"
                             autoFocus
                         />
+
+                        <div className="row">
+                            <div className="row__icon svg-9">
+                                <IconCalendar />
+                            </div>
+                            <div className="row__details">
+                                <div className="range-time">range time</div>
+                                <TimeLength ref={refTimeLength} />
+                            </div>
+                        </div>
 
                         <div className="row">
                             <div className="row__icon svg-9">
