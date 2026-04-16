@@ -10,7 +10,6 @@ export default function CalendarContainer() {
     useSiteTitle('calendar');
 
     const refMainCalendar = useRef(null);
-
     const _onNext = () => refMainCalendar.current.onNext();
     const _onPrev = () => refMainCalendar.current.onPrev();
     const _onToday = () => refMainCalendar.current.onToday();
