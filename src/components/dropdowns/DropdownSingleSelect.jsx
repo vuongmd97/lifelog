@@ -24,11 +24,8 @@ const DropdownSingleSelect = (props) => {
 };
 
 const CustomButton = ({ selected = {} }) => {
-    console.log('selected.label', selected.label);
-
     return (
         <>
-            {/* <span className="txt-content">{selected.label}</span> */}
             <span className="txt-ellipsis">{selected.label}</span>
             <span className="arrow">
                 <IconArrow />
@@ -39,15 +36,19 @@ const CustomButton = ({ selected = {} }) => {
 
 const ListItems = ({ options = [], selected = {}, onClick = () => {} }) => {
     if (options.length === 0) return null;
-    console.log('selected', selected);
 
     return (
         <ul>
             {options.map((opt) => {
-                const active = opt.id === selected.id;
+                const active =
+                    selected.id != null && opt.id != null ? opt.id === selected.id : opt.value === selected.value;
 
                 return (
-                    <li key={opt.id} onClick={() => onClick(opt)} className={classNames('items', { active })}>
+                    <li
+                        key={opt.id ?? opt.value}
+                        onClick={() => onClick(opt)}
+                        className={classNames('items', { active })}
+                    >
                         <span className="txt-ellipsis">{opt.label}</span>
                     </li>
                 );

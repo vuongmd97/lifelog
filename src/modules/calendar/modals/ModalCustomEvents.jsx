@@ -14,6 +14,7 @@ import IconLocation from '../../../assets/svg/IconLocation';
 import IconDescription from '../../../assets/svg/IconDescription';
 import IconCalendar from '../../../assets/svg/IconCalendar';
 import { TimeLength } from '../components/TimeLength';
+import { formatTimeRange } from '../../../utils/DateUtils';
 
 const INITIAL_DATA = {
     title: '',
@@ -107,6 +108,30 @@ const ModalCustomEvents = (_, ref) => {
         return editingId ? 'Edit Custom Event' : 'Custom Event';
     };
 
+    const start = new Date(data.start);
+    const end = new Date(data.end);
+    const diffMin = (end - start) / 60000;
+    const initialHours = Math.max(0, Math.min(23, Math.floor(diffMin / 60)));
+    const initialMinutes = diffMin % 60;
+
+    const handleTimeChange = () => {
+        if (!refTimeLength.current) return;
+        const { hours, minutes } = refTimeLength.current.getValue();
+        const totalMin = hours * 60 + minutes;
+
+        dispatchState((prev) => {
+            const startDate = new Date(prev.data.start);
+            const endDate = new Date(startDate.getTime() + totalMin * 60_000);
+            return {
+                ...prev,
+                data: {
+                    ...prev.data,
+                    end: endDate.toISOString()
+                }
+            };
+        });
+    };
+
     if (!isOpen) return;
 
     return (
@@ -135,8 +160,13 @@ const ModalCustomEvents = (_, ref) => {
                                 <IconCalendar />
                             </div>
                             <div className="row__details">
-                                <div className="range-time">range time</div>
-                                <TimeLength ref={refTimeLength} />
+                                <div className="range-time">{formatTimeRange(data.start, data.end)}</div>
+                                <TimeLength
+                                    ref={refTimeLength}
+                                    initialMinutes={initialMinutes}
+                                    initialHours={initialHours}
+                                    onTimeChange={handleTimeChange}
+                                />
                             </div>
                         </div>
 

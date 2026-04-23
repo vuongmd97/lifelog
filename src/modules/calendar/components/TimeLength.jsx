@@ -21,11 +21,11 @@ export const TimeLength = forwardRef(({ initialMinutes, initialHours, onTimeChan
     const handleSelect = (unit, value) => {
         if (unit === UNIT_HOURS) {
             refHoursSelected.current = value;
-            onTimeChange?.();
+            onTimeChange();
         }
         if (unit === UNIT_MINUTES) {
             refMinutesSelected.current = value;
-            onTimeChange?.();
+            onTimeChange();
         }
     };
 
@@ -55,16 +55,27 @@ export const TimeLength = forwardRef(({ initialMinutes, initialHours, onTimeChan
 });
 
 const DropdownTime = ({ unit, subText = '', defaultValue = DEFAULT_SELECTED, options = [], onSelect = () => {} }) => {
-    const [selected, setSelected] = useState(defaultValue);
+    console.log({ defaultValue, unit });
+
+    const [selected, setSelected] = useState(() => {
+        const el = options.find((opt) => opt.value === defaultValue.value);
+        return {
+            id: el.value,
+            label: `${el.name} ${subText}`,
+            value: el.value
+        };
+    });
 
     const mappedOptions = options.map((opt) => ({
-        label: `${opt.name} ${subText}`.trim(),
+        id: opt.value,
+        label: `${opt.name} ${subText}`,
         value: opt.value
     }));
 
-    const handleSelect = (value) => {
-        const newSelected = options.find((opt) => opt.value === value);
-        setSelected(newSelected);
+    const handleSelect = (picked) => {
+        const newSelected = options.find((opt) => opt.value === picked.value);
+        if (!newSelected) return;
+        setSelected(picked);
         onSelect(unit, newSelected);
     };
 
