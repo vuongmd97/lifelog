@@ -55,8 +55,6 @@ export const TimeLength = forwardRef(({ initialMinutes, initialHours, onTimeChan
 });
 
 const DropdownTime = ({ unit, subText = '', defaultValue = DEFAULT_SELECTED, options = [], onSelect = () => {} }) => {
-    console.log({ defaultValue, unit });
-
     const [selected, setSelected] = useState(() => {
         const el = options.find((opt) => opt.value === defaultValue.value);
         return {
