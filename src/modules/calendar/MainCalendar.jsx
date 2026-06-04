@@ -342,6 +342,19 @@ const MainCalendar = forwardRef((_, ref) => {
         );
     };
 
+    const renderEventContent = (arg) => {
+        const { event, timeText, isMirror } = arg;
+        const { description } = event.extendedProps;
+
+        return (
+            <div className="fc-event-custom">
+                {isMirror && <div className="fc-event-custom__time">{timeText}</div>}
+                <div className="fc-event-custom__title">{event.title}</div>
+                {description && <div className="white-space-pre">{description}</div>}
+            </div>
+        );
+    };
+
     return (
         <Fragment>
             <ModalAddJobs data={addJobs} onClose={_handleCloseAddJobs} onCreateEvent={_handleCreateEvent} />
@@ -360,6 +373,8 @@ const MainCalendar = forwardRef((_, ref) => {
                     eventClick={onEventClick}
                     eventDrop={onEventResize}
                     eventResize={onEventResize}
+                    // Custom UI ev
+                    eventContent={renderEventContent}
                     // end events
                     {...settingsCalendar}
                     height="100%"
