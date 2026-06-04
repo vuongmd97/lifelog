@@ -10,6 +10,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import googleCalendarPlugin from '@fullcalendar/google-calendar';
+import { updateEvent } from '../redux/calendar/calendarSlice';
 
 import SpinnerLoading from '../../components/loaders/SpinnerLoading';
 
@@ -330,6 +331,17 @@ const MainCalendar = forwardRef((_, ref) => {
         refAddEvent.current._openEdit(previewEvent);
     };
 
+    const onEventResize = (info) => {
+        const ev = info.event;
+        dispatch(
+            updateEvent({
+                id: ev.id,
+                start: ev.start.toISOString(),
+                end: ev.end.toISOString()
+            })
+        );
+    };
+
     return (
         <Fragment>
             <ModalAddJobs data={addJobs} onClose={_handleCloseAddJobs} onCreateEvent={_handleCreateEvent} />
@@ -344,7 +356,11 @@ const MainCalendar = forwardRef((_, ref) => {
                     droppable
                     eventSources={eventSources}
                     dateClick={onDateClick}
+                    // events
                     eventClick={onEventClick}
+                    eventDrop={onEventResize}
+                    eventResize={onEventResize}
+                    // end events
                     {...settingsCalendar}
                     height="100%"
                     loading={(loadEvents) => dispatchState({ loadEvents })}
